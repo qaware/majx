@@ -4,9 +4,10 @@ class HelloWorld {
 
     fun sayHello(formal: Boolean): String {
         if (formal) {
-            return "Hello, World!"
+            return "Hello, ${getWorld()}!"
         } else {
-            return "Cheers, World!"
+            return "Cheers, ${getWorld()}!"
         }
     }
 }
+
