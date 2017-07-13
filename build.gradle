@@ -23,6 +23,13 @@ jacocoTestReport {
     }
 }
 
+coveralls {
+    // Add kotlin source dir, since the coveralls plugin needs the sources and
+    // does not pick it up automatically.
+    // See https://github.com/kt3k/coveralls-gradle-plugin/issues/63
+    sourceDirs += ['src/main/kotlin']
+}
+
 repositories {
     mavenCentral()
 }
