@@ -13,32 +13,43 @@ values, that are treated in a certain way.
 
 An example pattern would be the following JSON:
 
-```json
-{
-  "brand" : "BMW",    // 1
-  "color" : "...",    // 2
-  "engine" : {        // 3
-    "cylinders" : 4,  // 4
-    "..." : "..."     // 5
+<div style="background: #f8f8f8; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;"><table><tr><td><pre style="margin: 0; line-height: 125%"> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></td><td><pre style="margin: 0; line-height: 125%">{
+  <span style="color: #008000; font-weight: bold">&quot;brand&quot;</span> : <span style="color: #BA2121">&quot;BMW&quot;</span>,    
+  <span style="color: #008000; font-weight: bold">&quot;color&quot;</span> : <span style="color: #BA2121">&quot;...&quot;</span>,    
+  <span style="color: #008000; font-weight: bold">&quot;engine&quot;</span> : {        
+    <span style="color: #008000; font-weight: bold">&quot;cylinders&quot;</span> : <span style="color: #666666">4</span>,  
+    <span style="color: #008000; font-weight: bold">&quot;...&quot;</span> : <span style="color: #BA2121">&quot;...&quot;</span>     
   },
-  "features" : [      // 6 
-    "air con",        // 7
-    "..."             // 8
+  <span style="color: #008000; font-weight: bold">&quot;features&quot;</span> : [      
+    <span style="color: #BA2121">&quot;air con&quot;</span>,        
+    <span style="color: #BA2121">&quot;...&quot;</span>             
   ]
-}                     // 9
-```
+}
+</pre></td></tr></table></div>
+
 
 An **actual JSON document** that you match with this pattern ...
 
-1. must have a property ``$.brand`` of type string with value ``"BMW"``.
-2. must have a property ``$.color`` of any type with any value.
-3. must have a property ``$.engine`` of type object.
-4. must have a property ``$.engine.cylinders`` of type number with value ``4``
-5. the object at position ``$.engine`` may have zero or more other properties, which we don't care about. The wildcard-property (``"..." : "..."``) must be the last entry of an object.
-6. must have a property ``$.features`` of type array.
-7. must have a property ``$.features[0]`` of type string with value ``"air con"``.
-8. the array at position ``$.features`` may have zero or more other properties, which we don't care about. The wildcard element (``"..."``) must be the last entry of any array.
-9. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above) 
+2. must have a property ``$.brand`` of type string with value ``"BMW"``.
+3. must have a property ``$.color`` of any type with any value.
+4. must have a property ``$.engine`` of type object.
+5. must have a property ``$.engine.cylinders`` of type number with value ``4``
+6. the object at position ``$.engine`` may have zero or more other properties, which we don't care about. The wildcard-property (``"..." : "..."``) must be the last entry of an object.
+8. must have a property ``$.features`` of type array.
+9. must have a property ``$.features[0]`` of type string with value ``"air con"``.
+10. the array at position ``$.features`` may have zero or more other properties, which we don't care about. The wildcard element (``"..."``) must be the last entry of any array.
+12. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above) 
 because it has no wildcard-property (``"..." : "..."``) at the end.
 
 That means this **actual JSON document** will pass the validation:
