@@ -13,7 +13,7 @@ values, that are treated in a certain way.
 
 An example pattern would be the following JSON:
 
-```json
+```
 {
   "brand" : "BMW",    // 1
   "color" : "...",    // 2
