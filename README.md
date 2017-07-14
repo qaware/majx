@@ -52,7 +52,7 @@ That means this **actual JSON document** will pass the validation:
   },
   "features" : [       
     "air con",        
-    "head up disply"             
+    "head up display"             
   ]
 }                     
 ```
