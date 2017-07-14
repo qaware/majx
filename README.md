@@ -43,7 +43,7 @@ because it has no wildcard-property (``"..." : "..."``) at the end.
 
 That means this **actual JSON document** will pass the validation:
 
-```json
+```
 {
   "brand" : "BMW",    
   "color" : "red",    
@@ -59,7 +59,7 @@ That means this **actual JSON document** will pass the validation:
 
 ... but this **actual JSON document** will cause a validation error:
 
-```json
+```
 {
   "brand" : "VW",       // 1
   "engine" : {        
