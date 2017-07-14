@@ -1,11 +1,11 @@
 # majx - Matching JSON expressively
 [![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
 
-Majx is a small focused test library that helps to verify that a JSON document fulfils your expectations regarding 
+Majx is a small, focused test library that helps to verify that a JSON document fulfils your expectations regarding 
 structure and values. 
 
 You provide a JSON document, that you wish to test - let's call it the **actual JSON document**
-along with another JSON document that describes the things you with to verify - lets call this one the **pattern JSON document**.
+along with another JSON document that describes the things you with to verify - let's call this one the **pattern JSON document**.
 
 The main idea of this lib is that we try to let you express almost all of your expectations in a flexible, readable 
 and concise way within the **pattern JSON document**. To achieve this, the **pattern JSON document** may contain magic 
