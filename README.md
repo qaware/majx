@@ -5,7 +5,7 @@ Majx is a small focused test library that helps you verifying that a JSON docume
 structure and values. 
 
 You provide a JSON document, that you wish to test - lets call it the **actual JSON document**
-along another JSON document that resembles the things you with to verify - lets call this one the **pattern JSON document**.
+along with another JSON document that resembles the things you with to verify - lets call this one the **pattern JSON document**.
 
 The main idea of this lib is that we try to let you express almost all of your expectations in a flexible, readable 
 and concise way within the **pattern JSON document**. To achieve this, the **pattern JSON document** may contain magic 
