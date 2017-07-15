@@ -1,10 +1,6 @@
 #######################################################################################################################
 # Java
 #######################################################################################################################
-
-# Compiled class file
-*.class
-
 # Log file
 *.log
 
@@ -21,6 +17,8 @@
 *.zip
 *.tar.gz
 *.rar
+
+src/main/java/*
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
@@ -50,4 +48,3 @@ target/
 **/.idea/*
 !.idea/runConfigurations/
 out
-classes
