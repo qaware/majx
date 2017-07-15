@@ -1,4 +1,4 @@
 {
   "key1": "mustacheValue1",
-  "key2": "mustacheValue2"
+  "url": "https://base.com/path/to/file"
 }

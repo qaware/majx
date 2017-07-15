@@ -81,7 +81,7 @@ class MajxTest {
 
         assertJsonMatches(actual, pattern, mapOf(
                 Pair("mustacheVar1", "mustacheValue1"),
-                Pair("mustacheVar2", "mustacheValue2")
+                Pair("baseUrl", "https://base.com")
         ))
     }
 }
