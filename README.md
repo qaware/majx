@@ -17,17 +17,17 @@ An example pattern would be the following JSON:
 
 ```
 {
-  "brand" : "BMW",    // 1
-  "color" : "...",    // 2
-  "engine" : {        // 3
-    "cylinders" : 4,  // 4
-    "..." : "..."     // 5
+  "brand" : "BMW",    (1)
+  "color" : "...",    (2)
+  "engine" : {        (3)
+    "cylinders" : 4,  (4)
+    "..." : "..."     (5)
   },
-  "features" : [      // 6 
-    "air con",        // 7
-    "..."             // 8
+  "features" : [      (6) 
+    "air con",        (7)
+    "..."             (8)
   ]
-}                     // 9
+}                     (9)
 ```
 
 An **actual JSON document** that you match with this pattern ...
@@ -66,15 +66,15 @@ That means this **actual JSON document** will pass the validation:
 
 ```
 {
-  "brand" : "VW",       // 1
+  "brand" : "VW",       (1)
   "engine" : {        
-    "cylinders" : "4"   // 2  
+    "cylinders" : "4"   (2)  
   },
   "features" : [
     "head up display",
-    "air con"           // 3
+    "air con"           (3)
   ]
-}                       // 4
+}                       (4)
 ```
 
 Why? Because the latter **actual JSON document** ...
