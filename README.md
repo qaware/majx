@@ -17,17 +17,18 @@ An example pattern would be the following JSON:
 
 ```
 {
-  "brand" : "BMW",    (1)
-  "color" : "...",    (2)
-  "engine" : {        (3)
-    "cylinders" : 4,  (4)
-    "..." : "..."     (5)
+  "brand" : "BMW",              (1)
+  "color" : "...",              (2)
+  "engine" : {                  (3)
+    "cylinders" : 4,            (4)
+    "..." : "..."               (5)
   },
-  "features" : [      (6) 
-    "air con",        (7)
-    "..."             (8)
-  ]
-}                     (9)
+  "features" : [                (6) 
+    "air con",                  (7)
+    "..."                       (8)
+  ],
+  "url" : "{{baseUrl}}/cars/12" (9)
+}                               (10)
 ```
 
 An **actual JSON document** that you match with this pattern ...
@@ -40,12 +41,17 @@ An **actual JSON document** that you match with this pattern ...
 6. must have a property ``$.features`` of type array.
 7. must have a property ``$.features[0]`` of type string with value ``"air con"``.
 8. the array at position ``$.features`` may have zero or more other properties, which we don't care about. The wildcard element (``"..."``) must be the last entry of any array.
-9. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above) 
+9. must have a property ``$.url`` of type string. The expected value is
+determined at runtime by looking up the mustache expression ``{{baseUrl}}`` in a given mustache scope. The
+ mustache scope can be a ``Map<String,String>`` or a POJO. If no mustache expressions are used in the pattern, 
+ no mustache scope must be provided.
+10. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above) 
 because it has no wildcard-property (``"..." : "..."``) at the end.
 
 ## Matching an actual JSON document
 
-That means this **actual JSON document** will pass the validation:
+That means this **actual JSON document** will pass the validation given 
+that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
 {
@@ -58,23 +64,26 @@ That means this **actual JSON document** will pass the validation:
     "air con",        
     "head up display",
     "brake assist"             
-  ]
+  ],
+  "url" : "https://base.com/cars/12"
 }                     
 ```
 
-... but this **actual JSON document** will cause a validation error:
+... but this **actual JSON document** will cause a validation error given
+ that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
 {
-  "brand" : "VW",       (1)
+  "brand" : "VW",                       (1)
   "engine" : {        
-    "cylinders" : "4"   (2)  
+    "cylinders" : "4"                   (2)  
   },
   "features" : [
     "head up display",
-    "air con"           (3)
-  ]
-}                       (4)
+    "air con"                           (3)
+  ],
+  "url" : "https://other.com/cars/12"   (4)
+}                                       (5)
 ```
 
 Why? Because the latter **actual JSON document** ...
@@ -84,8 +93,10 @@ Why? Because the latter **actual JSON document** ...
 string and has value ``"4"``.
 3. does not have a property ``$.features[0]`` of type string with value ``"air con"``. 
 Instead, it's value is ``"head up display"``.
-4. does not have a property ``$.color`` with any value.
-
+4. does not have a property ``$.url`` with value ``https://base.com/cars/12``. Instead it's value 
+is ``https://other.com/cars/12``.
+5. does not have a property ``$.color`` with any value. 
+ 
 ## Maintainer
 
 Claudius Boettcher, <claudius.boettcher@qaware.de>.
