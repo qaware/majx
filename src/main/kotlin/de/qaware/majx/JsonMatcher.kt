@@ -133,7 +133,7 @@ class JsonMatcher(val mustacheScope: Any?) {
         } catch (ex: AssertionError) {
             val actualAsText = convertToString(actual)
             val expectedAsText = convertToString(expected)
-            throw AssertionError("""${reason ?: ""}Validation error: ${ex.message}.
+            throw AssertionError("""${reason ?: ""}${ex.message}.
 
                 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 |Actual JSON:
