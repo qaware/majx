@@ -136,7 +136,7 @@ class JsonMatcher(val mustacheScope: Any?) {
             throw AssertionError("""${reason ?: ""}${ex.message}.
 
                 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-                |Actual JSON:
+                |Actual JSON
                 |~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 |$actualAsText
 
