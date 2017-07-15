@@ -11,6 +11,8 @@ The main idea of this lib is that we try to let you express almost all of your e
 and concise way within the **pattern JSON document**. To achieve this, the **pattern JSON document** may contain magic 
 values, that are treated in a certain way. 
 
+## Writing the pattern
+
 An example pattern would be the following JSON:
 
 ```
@@ -40,6 +42,8 @@ An **actual JSON document** that you match with this pattern ...
 8. the array at position ``$.features`` may have zero or more other properties, which we don't care about. The wildcard element (``"..."``) must be the last entry of any array.
 9. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above) 
 because it has no wildcard-property (``"..." : "..."``) at the end.
+
+## Matching an actual JSON document
 
 That means this **actual JSON document** will pass the validation:
 
