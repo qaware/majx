@@ -14,6 +14,7 @@ plugins {
     id "org.jetbrains.kotlin.jvm" version '1.1.3-2'
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.6.3'
+    id "com.github.hierynomus.license" version "0.14.0"
 }
 
 group 'de.qaware'
@@ -31,6 +32,15 @@ coveralls {
     // does not pick it up automatically.
     // See https://github.com/kt3k/coveralls-gradle-plugin/issues/63
     sourceDirs += ['src/main/kotlin']
+}
+
+license {
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+    }
+    header file("LICENSE")
+    strictCheck true
+    include '**/*.kt'
 }
 
 repositories {
