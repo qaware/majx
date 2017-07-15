@@ -93,8 +93,8 @@ Why? Because the latter **actual JSON document** ...
 string and has value ``"4"``.
 3. does not have a property ``$.features[0]`` of type string with value ``"air con"``. 
 Instead, it's value is ``"head up display"``.
-4. does not have a property ``$.url`` with value ``https://base.com/cars/12``. Instead it's value 
-is ``https://other.com/cars/12``.
+4. does not have a property ``$.url`` with value ``"https://base.com/cars/12"``. Instead it's value 
+is ``"https://other.com/cars/12"``.
 5. does not have a property ``$.color`` with any value. 
  
 ## Maintainer
