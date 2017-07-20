@@ -1,0 +1,29 @@
+Error at location $: Size of object properties does not match.
+Expected properties:       some, that, really, number
+Actual properties:         oh, some, that, really, number, too, much
+Not matched properties:    oh, too, much
+Expected: <4>
+     but: was <7>.
+
+--------------------------------------------------------------------------------------------
+Actual JSON
+--------------------------------------------------------------------------------------------
+{
+  "oh" : "no",
+  "some" : "things",
+  "that" : "are expected",
+  "really" : true,
+  "number" : 4,
+  "too" : 2,
+  "much" : true
+}
+
+--------------------------------------------------------------------------------------------
+Pattern
+--------------------------------------------------------------------------------------------
+{
+  "some" : "things",
+  "that" : "are expected",
+  "really" : true,
+  "number" : 4
+}

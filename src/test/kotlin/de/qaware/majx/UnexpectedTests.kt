@@ -57,4 +57,33 @@ class UnexpectedTests {
             assertThat(ex.message, `is`(expectedMessage))
         }
     }
+
+
+    @Test
+    fun testMultipleUnexpectedInObject() {
+        val actual = readFile("unexpected/multipleUnexpectedProperties/object/actual.json")
+        val pattern = readFile("unexpected/multipleUnexpectedProperties/object/pattern.json")
+        val expectedMessage = readFile("unexpected/multipleUnexpectedProperties/object/expectedMessage.txt")
+
+        try {
+            assertJsonMatches(actual, pattern)
+            fail()
+        } catch (ex: AssertionError) {
+            assertThat(ex.message, `is`(expectedMessage))
+        }
+    }
+
+    @Test
+    fun testMultipleUnexpectedInArray() {
+        val actual = readFile("unexpected/multipleUnexpectedProperties/array/actual.json")
+        val pattern = readFile("unexpected/multipleUnexpectedProperties/array/pattern.json")
+        val expectedMessage = readFile("unexpected/multipleUnexpectedProperties/array/expectedMessage.txt")
+
+        try {
+            assertJsonMatches(actual, pattern)
+            fail()
+        } catch (ex: AssertionError) {
+            assertThat(ex.message, `is`(expectedMessage))
+        }
+    }
 }
