@@ -28,21 +28,21 @@ import org.hamcrest.Matchers.`is`
 import org.junit.Test
 import kotlin.test.fail
 
-class MajxTest {
+class MustacheTests {
 
     @Test
     fun testEmptyObjectsSuccess() {
-        val actual = readFile("exact/empty/object/success/actual.json")
-        val pattern = readFile("exact/empty/object/success/pattern.json")
+        val actual = readFile("empty/object/actual.json")
+        val pattern = readFile("empty/object/pattern.json")
 
         assertJsonMatches(actual, pattern)
     }
 
     @Test
     fun testUnexpectedInObject() {
-        val actual = readFile("exact/empty/object/error/unexpected/actual.json")
-        val pattern = readFile("exact/empty/object/error/unexpected/pattern.json")
-        val expectedMessage = readFile("exact/empty/object/error/unexpected/expectedMessage.txt")
+        val actual = readFile("unexpected/singlePropertyUnexpected/object/actual.json")
+        val pattern = readFile("unexpected/singlePropertyUnexpected/object/pattern.json")
+        val expectedMessage = readFile("unexpected/singlePropertyUnexpected/object/expectedMessage.txt")
 
         try {
             assertJsonMatches(actual, pattern)
@@ -54,9 +54,9 @@ class MajxTest {
 
     @Test
     fun testMissingInObject() {
-        val actual = readFile("exact/empty/object/error/missing/actual.json")
-        val pattern = readFile("exact/empty/object/error/missing/pattern.json")
-        val expectedMessage = readFile("exact/empty/object/error/missing/expectedMessage.txt")
+        val actual = readFile("missing/singlePropertyMissing/object/actual.json")
+        val pattern = readFile("missing/singlePropertyMissing/object/pattern.json")
+        val expectedMessage = readFile("missing/singlePropertyMissing/object/expectedMessage.txt")
 
         try {
             assertJsonMatches(actual, pattern)
@@ -68,8 +68,8 @@ class MajxTest {
 
     @Test
     fun testEmptyArraysSuccess() {
-        val actual = readFile("exact/empty/array/actual.json")
-        val pattern = readFile("exact/empty/array/pattern.json")
+        val actual = readFile("empty/array/actual.json")
+        val pattern = readFile("empty/array/pattern.json")
 
         assertJsonMatches(actual, pattern)
     }

@@ -113,7 +113,7 @@ class JsonMatcher(val mustacheScope: Any?) {
                 // No wildcard: number of elements must match exactly
                 val errorMsg: String
                 if (actual.isArray) {
-                    errorMsg = "${locationInfo}Size of arrays do not match."
+                    errorMsg = "${locationInfo}Sizes of arrays do not match."
                 } else if (actual.isObject) {
                     val expectedPropertiesSet = asSet(pattern.fieldNames())
                     val actualPropertiesSet = asSet(actual.fieldNames())
