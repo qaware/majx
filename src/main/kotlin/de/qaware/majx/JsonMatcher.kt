@@ -248,7 +248,7 @@ class JsonMatcher(val mustacheScope: Any?) {
     private fun validateString(actual: TextNode, pattern: TextNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
         val patternText = pattern.textValue()
-        MustacheMatcher.assertEqual(locationInfo + "Element does not match", patternText, actual.textValue(),
+        MustacheMatcher.assertEqual(locationInfo + "Value does not match", patternText, actual.textValue(),
                 mustacheScope)
     }
 
