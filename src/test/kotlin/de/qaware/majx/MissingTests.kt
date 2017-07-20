@@ -57,4 +57,32 @@ class MissingTests {
             assertThat(ex.message, `is`(expectedMessage))
         }
     }
+
+    @Test
+    fun testMultiplePropertiesMissingInObject() {
+        val actual = readFile("missing/multipleMissingProperties/object/actual.json")
+        val pattern = readFile("missing/multipleMissingProperties/object/pattern.json")
+        val expectedMessage = readFile("missing/multipleMissingProperties/object/expectedMessage.txt")
+
+        try {
+            assertJsonMatches(actual, pattern)
+            fail()
+        } catch (ex: AssertionError) {
+            assertThat(ex.message, `is`(expectedMessage))
+        }
+    }
+
+    @Test
+    fun testMultiplePropertiesMissingInArray() {
+        val actual = readFile("missing/multipleMissingProperties/array/actual.json")
+        val pattern = readFile("missing/multipleMissingProperties/array/pattern.json")
+        val expectedMessage = readFile("missing/multipleMissingProperties/array/expectedMessage.txt")
+
+        try {
+            assertJsonMatches(actual, pattern)
+            fail()
+        } catch (ex: AssertionError) {
+            assertThat(ex.message, `is`(expectedMessage))
+        }
+    }
 }

@@ -1,0 +1,24 @@
+Error at location $: Size of object properties does not match.
+Expected properties:       expected, and, this, should
+Actual properties:         expected, this
+Not matched properties:    and, should
+Expected: <4>
+     but: was <2>.
+
+--------------------------------------------------------------------------------------------
+Actual JSON
+--------------------------------------------------------------------------------------------
+{
+  "expected" : "to be here",
+  "this" : 1337
+}
+
+--------------------------------------------------------------------------------------------
+Pattern
+--------------------------------------------------------------------------------------------
+{
+  "expected" : "to be here",
+  "and" : true,
+  "this" : 1337,
+  "should" : "be here too"
+}

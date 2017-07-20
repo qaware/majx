@@ -31,50 +31,6 @@ import kotlin.test.fail
 class MustacheTests {
 
     @Test
-    fun testEmptyObjectsSuccess() {
-        val actual = readFile("empty/object/actual.json")
-        val pattern = readFile("empty/object/pattern.json")
-
-        assertJsonMatches(actual, pattern)
-    }
-
-    @Test
-    fun testUnexpectedInObject() {
-        val actual = readFile("unexpected/singlePropertyUnexpected/object/actual.json")
-        val pattern = readFile("unexpected/singlePropertyUnexpected/object/pattern.json")
-        val expectedMessage = readFile("unexpected/singlePropertyUnexpected/object/expectedMessage.txt")
-
-        try {
-            assertJsonMatches(actual, pattern)
-            fail()
-        } catch (ex: AssertionError) {
-            assertThat(ex.message, `is`(expectedMessage))
-        }
-    }
-
-    @Test
-    fun testMissingInObject() {
-        val actual = readFile("missing/singlePropertyMissing/object/actual.json")
-        val pattern = readFile("missing/singlePropertyMissing/object/pattern.json")
-        val expectedMessage = readFile("missing/singlePropertyMissing/object/expectedMessage.txt")
-
-        try {
-            assertJsonMatches(actual, pattern)
-            fail()
-        } catch (ex: AssertionError) {
-            assertThat(ex.message, `is`(expectedMessage))
-        }
-    }
-
-    @Test
-    fun testEmptyArraysSuccess() {
-        val actual = readFile("empty/array/actual.json")
-        val pattern = readFile("empty/array/pattern.json")
-
-        assertJsonMatches(actual, pattern)
-    }
-
-    @Test
     fun testMustacheMatch() {
         val actual = readFile("mustache/actual.json")
         val pattern = readFile("mustache/pattern.json")
