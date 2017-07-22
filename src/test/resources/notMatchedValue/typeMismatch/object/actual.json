@@ -1,3 +1,5 @@
 {
-  "expected": true
+  "expected": {
+    "key" : "value"
+  }
 }
