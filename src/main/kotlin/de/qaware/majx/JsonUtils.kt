@@ -49,10 +49,4 @@ fun convertToString(`object`: JsonNode): String {
  * @param s String that should be converted
  * @return Converted object
  */
-fun convertToJsonNode(s: String): JsonNode {
-    try {
-        return JSON_MAPPER.readTree(s)
-    } catch (e: IOException) {
-        throw IllegalArgumentException("Failed to parse JSON", e)
-    }
-}
+fun convertToJsonNode(s: String): JsonNode = JSON_MAPPER.readTree(s)

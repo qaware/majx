@@ -24,6 +24,7 @@
 package de.qaware.majx
 
 import com.fasterxml.jackson.databind.JsonNode
+import java.io.IOException
 
 fun assertJsonMatches(actual: String, pattern: String) =
         assertJsonMatches(null, actual, pattern)
@@ -31,11 +32,20 @@ fun assertJsonMatches(actual: String, pattern: String) =
 fun assertJsonMatches(actual: String, pattern: String, mustacheScope: Any? = null) =
         assertJsonMatches(null, actual, pattern, mustacheScope)
 
-fun assertJsonMatches(reason: String?, actual: String, pattern: String, mustacheScope: Any? = null) =
-        assertJsonMatches(reason,
-                convertToJsonNode(actual),
-                convertToJsonNode(pattern),
-                mustacheScope)
+fun assertJsonMatches(reason: String?, actual: String, pattern: String, mustacheScope: Any? = null) {
+    assertJsonMatches(reason,
+            parseAndValidate(actual, "actual"),
+            parseAndValidate(pattern, "pattern"),
+            mustacheScope)
+}
+
+private fun parseAndValidate(paramValue: String, paramName: String): JsonNode {
+    try {
+        return convertToJsonNode(paramValue)
+    } catch (ioe: IOException) {
+        throw IllegalArgumentException("Failed to parse $paramName as JSON:\n$paramValue", ioe)
+    }
+}
 
 private fun assertJsonMatches(reason: String?, actual: JsonNode, pattern: JsonNode, mustacheScope: Any?) =
         JsonMatcher(mustacheScope).assertMatches(reason, actual, pattern)
