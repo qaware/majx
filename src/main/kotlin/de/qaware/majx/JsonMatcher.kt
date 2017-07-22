@@ -235,11 +235,10 @@ class JsonMatcher(val mustacheScope: Any?) {
     private fun validateArray(actual: ArrayNode, pattern: ArrayNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
         validateCorrectSize(actual, pattern, locationInfo)
-        // Special case: If the pattern has only the wildcard element, any array matches it.
-        if (pattern.size() == 1 && containsWildcard(pattern)) {
-            return
-        }
-        for (i in 0..pattern.size() - 1) {
+
+        // If pattern contains wildcard only the elements up to the wildcard must match.
+        val maxIndex = if (containsWildcard(pattern)) pattern.size() - 2 else pattern.size() - 1
+        for (i in 0..maxIndex) {
             validate(actual.get(i), pattern.get(i), "$attributeName[$i]")
         }
     }
