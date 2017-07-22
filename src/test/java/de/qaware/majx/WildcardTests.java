@@ -1,4 +1,4 @@
-/**
+/*
  * MIT License
  *
  * Copyright (c) 2017 QAware GmbH
@@ -79,6 +79,30 @@ public class WildcardTests {
                         "multiple elements array matches any array pattern",
                         "wildcard/anyContent/actualMultipleEntries/array/actual.json",
                         "wildcard/anyContent/actualMultipleEntries/array/pattern.json",
+                        null
+                },
+                {
+                        "array wildcard: error invalid start",
+                        "wildcard/arrayWildcard/errorInvalidStart/actual.json",
+                        "wildcard/arrayWildcard/errorInvalidStart/pattern.json",
+                        "wildcard/arrayWildcard/errorInvalidStart/expectedMessage.txt"
+                },
+                {
+                        "array wildcard: actual array too short",
+                        "wildcard/arrayWildcard/errorActualArrayTooShort/actual.json",
+                        "wildcard/arrayWildcard/errorActualArrayTooShort/pattern.json",
+                        "wildcard/arrayWildcard/errorActualArrayTooShort/expectedMessage.txt",
+                },
+                {
+                        "array wildcard: success with no additional elements",
+                        "wildcard/arrayWildcard/successNoAdditionalElements/actual.json",
+                        "wildcard/arrayWildcard/successNoAdditionalElements/pattern.json",
+                        null
+                },
+                {
+                        "array wildcard: success with multiple additional elements",
+                        "wildcard/arrayWildcard/successMultipleAdditionalElements/actual.json",
+                        "wildcard/arrayWildcard/successMultipleAdditionalElements/pattern.json",
                         null
                 }
         });
