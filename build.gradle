@@ -41,6 +41,7 @@ license {
     header file("LICENSE")
     strictCheck true
     include '**/*.kt'
+    include '**/*.java'
 }
 
 repositories {
