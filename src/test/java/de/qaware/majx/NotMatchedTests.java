@@ -1,4 +1,4 @@
-/**
+/*
  * MIT License
  *
  * Copyright (c) 2017 QAware GmbH
@@ -56,6 +56,18 @@ public class NotMatchedTests {
                         "notMatchedValue/singleNotMatched/array/actual.json",
                         "notMatchedValue/singleNotMatched/array/pattern.json",
                         "notMatchedValue/singleNotMatched/array/expectedMessage.txt"
+                },
+                {
+                        "type mismatch: in object",
+                        "notMatchedValue/typeMismatch/object/actual.json",
+                        "notMatchedValue/typeMismatch/object/pattern.json",
+                        "notMatchedValue/typeMismatch/object/expectedMessage.txt",
+                },
+                {
+                        "type mismatch: in array",
+                        "notMatchedValue/typeMismatch/array/actual.json",
+                        "notMatchedValue/typeMismatch/array/pattern.json",
+                        "notMatchedValue/typeMismatch/array/expectedMessage.txt",
                 }
         });
     }
