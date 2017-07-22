@@ -1,0 +1,4 @@
+Failed to parse pattern as JSON:
+{
+
+"invalid json
