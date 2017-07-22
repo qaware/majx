@@ -104,6 +104,24 @@ public class WildcardTests {
                         "wildcard/arrayWildcard/successMultipleAdditionalElements/actual.json",
                         "wildcard/arrayWildcard/successMultipleAdditionalElements/pattern.json",
                         null
+                },
+                {
+                        "object wildcard: actual object has too few properties",
+                        "wildcard/objectWildcard/errorActualArrayTooShort/actual.json",
+                        "wildcard/objectWildcard/errorActualArrayTooShort/pattern.json",
+                        "wildcard/objectWildcard/errorActualArrayTooShort/expectedMessage.txt",
+                },
+                {
+                        "object wildcard: success with no additional properties",
+                        "wildcard/objectWildcard/successNoAdditionalElements/actual.json",
+                        "wildcard/objectWildcard/successNoAdditionalElements/pattern.json",
+                        null
+                },
+                {
+                        "object wildcard: success with multiple additional properties",
+                        "wildcard/objectWildcard/successMultipleAdditionalElements/actual.json",
+                        "wildcard/objectWildcard/successMultipleAdditionalElements/pattern.json",
+                        null
                 }
         });
     }
