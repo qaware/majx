@@ -77,7 +77,9 @@ class JsonMatcher(val mustacheScope: Any?) {
 
 
         /**
-         * Check if the node contains a wildcard. The wildcard is the last entry in the array or the child element with the
+         * Check if the node contains a wildcard.
+         *
+         * The wildcard is the last entry in the array or the child element with the
          * name "..." in an object.
 
          * @param node Node to check
@@ -233,6 +235,10 @@ class JsonMatcher(val mustacheScope: Any?) {
     private fun validateArray(actual: ArrayNode, pattern: ArrayNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
         validateCorrectSize(actual, pattern, locationInfo)
+        // Special case: If the pattern has only the wildcard element, any array matches it.
+        if (pattern.size() == 1 && containsWildcard(pattern)) {
+            return
+        }
         for (i in 0..pattern.size() - 1) {
             validate(actual.get(i), pattern.get(i), "$attributeName[$i]")
         }
