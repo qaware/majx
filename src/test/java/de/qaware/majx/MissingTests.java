@@ -47,15 +47,15 @@ public class MissingTests {
         return Arrays.asList(new Object[][]{
                 {
                         "single property missing in object",
-                        "missing/singlePropertyMissing/object/actual.json",
-                        "missing/singlePropertyMissing/object/pattern.json",
-                        "missing/singlePropertyMissing/object/expectedMessage.txt"
+                        "missing/singleMissingProperty/object/actual.json",
+                        "missing/singleMissingProperty/object/pattern.json",
+                        "missing/singleMissingProperty/object/expectedMessage.txt"
                 },
                 {
                         "single property missing in array",
-                        "missing/singlePropertyMissing/array/actual.json",
-                        "missing/singlePropertyMissing/array/pattern.json",
-                        "missing/singlePropertyMissing/array/expectedMessage.txt"
+                        "missing/singleMissingProperty/array/actual.json",
+                        "missing/singleMissingProperty/array/pattern.json",
+                        "missing/singleMissingProperty/array/expectedMessage.txt"
                 },
                 {
                         "multiple properties missing in object",
