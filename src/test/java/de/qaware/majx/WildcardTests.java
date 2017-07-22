@@ -122,6 +122,42 @@ public class WildcardTests {
                         "wildcard/objectWildcard/successMultipleAdditionalElements/actual.json",
                         "wildcard/objectWildcard/successMultipleAdditionalElements/pattern.json",
                         null
+                },
+                {
+                        "value wildcard: success with null",
+                        "wildcard/valueWildcard/successNull/actual.json",
+                        "wildcard/valueWildcard/successNull/pattern.json",
+                        null
+                },
+                {
+                        "value wildcard: success with number",
+                        "wildcard/valueWildcard/successNumber/actual.json",
+                        "wildcard/valueWildcard/successNumber/pattern.json",
+                        null
+                },
+                {
+                        "value wildcard: success with boolean",
+                        "wildcard/valueWildcard/successBoolean/actual.json",
+                        "wildcard/valueWildcard/successBoolean/pattern.json",
+                        null
+                },
+                {
+                        "value wildcard: success with string",
+                        "wildcard/valueWildcard/successString/actual.json",
+                        "wildcard/valueWildcard/successString/pattern.json",
+                        null
+                },
+                {
+                        "value wildcard: success with array",
+                        "wildcard/valueWildcard/successArray/actual.json",
+                        "wildcard/valueWildcard/successArray/pattern.json",
+                        null
+                },
+                {
+                        "value wildcard: success with object",
+                        "wildcard/valueWildcard/successObject/actual.json",
+                        "wildcard/valueWildcard/successObject/pattern.json",
+                        null
                 }
         });
     }
