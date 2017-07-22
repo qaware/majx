@@ -25,6 +25,9 @@ package de.qaware.majx
 
 import com.fasterxml.jackson.databind.JsonNode
 
+fun assertJsonMatches(actual: String, pattern: String) =
+        assertJsonMatches(null, actual, pattern)
+
 fun assertJsonMatches(actual: String, pattern: String, mustacheScope: Any? = null) =
         assertJsonMatches(null, actual, pattern, mustacheScope)
 
