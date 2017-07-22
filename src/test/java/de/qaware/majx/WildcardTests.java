@@ -58,15 +58,27 @@ public class WildcardTests {
                         null
                 },
                 {
-                        "non empty object matches any object pattern",
-                        "wildcard/anyContent/actualNotEmpty/object/actual.json",
-                        "wildcard/anyContent/actualNotEmpty/object/pattern.json",
+                        "single property object matches any object pattern",
+                        "wildcard/anyContent/actualSingleEntry/object/actual.json",
+                        "wildcard/anyContent/actualSingleEntry/object/pattern.json",
                         null
                 },
                 {
-                        "non empty array matches any array pattern",
-                        "wildcard/anyContent/actualNotEmpty/array/actual.json",
-                        "wildcard/anyContent/actualNotEmpty/array/pattern.json",
+                        "single element array matches any array pattern",
+                        "wildcard/anyContent/actualSingleEntry/array/actual.json",
+                        "wildcard/anyContent/actualSingleEntry/array/pattern.json",
+                        null
+                },
+                {
+                        "multiple property object matches any object pattern",
+                        "wildcard/anyContent/actualMultipleEntries/object/actual.json",
+                        "wildcard/anyContent/actualMultipleEntries/object/pattern.json",
+                        null
+                },
+                {
+                        "multiple elements array matches any array pattern",
+                        "wildcard/anyContent/actualMultipleEntries/array/actual.json",
+                        "wildcard/anyContent/actualMultipleEntries/array/pattern.json",
                         null
                 }
         });
