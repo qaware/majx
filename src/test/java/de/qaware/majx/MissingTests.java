@@ -93,6 +93,6 @@ public class MissingTests {
 
         exception.expect(AssertionError.class);
         exception.expectMessage(expectedMessage);
-        MajxKt.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(actual, pattern);
     }
 }

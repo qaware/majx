@@ -74,6 +74,6 @@ public class LocationTests {
         String pattern = readFile(this.patternPath);
         exception.expect(AssertionError.class);
         exception.expectMessage(this.expectedLocation);
-        MajxKt.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(actual, pattern);
     }
 }

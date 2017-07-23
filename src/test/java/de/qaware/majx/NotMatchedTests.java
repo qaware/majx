@@ -93,6 +93,6 @@ public class NotMatchedTests {
 
         exception.expect(AssertionError.class);
         exception.expectMessage(expectedMessage);
-        MajxKt.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(actual, pattern);
     }
 }

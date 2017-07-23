@@ -1,3 +1,4 @@
+@file:JvmName("Majx")
 /**
  * MIT License
  *

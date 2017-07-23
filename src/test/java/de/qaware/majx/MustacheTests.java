@@ -95,6 +95,6 @@ public class MustacheTests {
             exception.expect(AssertionError.class);
             exception.expectMessage(expectedMessage);
         }
-        MajxKt.assertJsonMatches(actual, pattern, this.mustacheScope);
+        Majx.assertJsonMatches(actual, pattern, this.mustacheScope);
     }
 }

@@ -93,6 +93,6 @@ public class MiscTests {
 
         exception.expect(this.expectedExceptionType);
         exception.expectMessage(expectedMessage);
-        MajxKt.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(actual, pattern);
     }
 }
