@@ -157,6 +157,16 @@ class JsonMatcher(val mustacheScope: Any?) {
         } catch (ex: AssertionError) {
             val actualAsText = convertToString(actual)
             val expectedAsText = convertToString(expected)
+
+            val mustacheScopeString = if (this.mustacheScope != null) {
+                """
+                |--------------------------------------------------------------------------------------------
+                |Mustache Scope
+                |--------------------------------------------------------------------------------------------
+                |${printMustacheScope(this.mustacheScope)}
+                """
+            } else ""
+
             throw AssertionError("""${reason ?: ""}${ex.message}.
 
                 |--------------------------------------------------------------------------------------------
@@ -167,9 +177,22 @@ class JsonMatcher(val mustacheScope: Any?) {
                 |--------------------------------------------------------------------------------------------
                 |Pattern
                 |--------------------------------------------------------------------------------------------
-                |$expectedAsText
-                """.trimMargin(), ex)
+                |$expectedAsText$mustacheScopeString""".trimMargin(), ex)
         }
+    }
+
+    private fun printMustacheScope(mustacheScope: Any): String {
+        val builder: StringBuilder = StringBuilder()
+        if (mustacheScope is Map<*, *>) {
+            val longestKey = mustacheScope.keys.fold(0, { acc, elem -> Math.max(acc, (elem as String).length) })
+            mustacheScope.forEach { key, value ->
+                builder.appendln("${key.toString().padEnd(longestKey + 1)}= $value")
+            }
+        } else {
+            builder.appendln(mustacheScope.toString())
+        }
+
+        return builder.toString()
     }
 
     /**
