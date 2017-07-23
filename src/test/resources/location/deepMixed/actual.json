@@ -1,0 +1,23 @@
+{
+  "key": "value",
+  "obj1": {
+    "array1": [
+      {
+        "first": true
+      },
+      {
+        "second": true,
+        "array2": [
+          [
+            {
+              "expected": "bar"
+            }
+          ]
+        ]
+      },
+      {
+        "third": true
+      }
+    ]
+  }
+}
