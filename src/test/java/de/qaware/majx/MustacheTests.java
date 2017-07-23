@@ -48,13 +48,23 @@ public class MustacheTests {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {
-                        "exact match",
-                        "mustache/actual.json",
-                        "mustache/pattern.json",
+                        "success: mixed use",
+                        "mustache/success/actual.json",
+                        "mustache/success/pattern.json",
                         ImmutableMap.<String, String>builder()
                                 .put("mustacheVar1", "mustacheValue1")
                                 .put("baseUrl", "https://base.com")
-                                .build()
+                                .build(),
+                        null
+                },
+                {
+                        "error: value mismatch",
+                        "mustache/errorValueMismatch/actual.json",
+                        "mustache/errorValueMismatch/pattern.json",
+                        ImmutableMap.<String, String>builder()
+                                .put("baseUrl", "https://base.com")
+                                .build(),
+                        "mustache/errorValueMismatch/expectedMessage.txt",
                 }
         });
     }
@@ -62,20 +72,29 @@ public class MustacheTests {
     private String actualPath;
     private String patternPath;
     private Map<String, String> mustacheScope;
+    private String expectedMessagePath;
 
     public MustacheTests(String testName,
                          String actualPath,
                          String patternPath,
-                         Map<String, String> mustacheScope) {
+                         Map<String, String> mustacheScope,
+                         String expectedMessagePath
+    ) {
         this.actualPath = actualPath;
         this.patternPath = patternPath;
         this.mustacheScope = mustacheScope;
+        this.expectedMessagePath = expectedMessagePath;
     }
 
     @Test
     public void test() throws IOException {
         String actual = readFile(this.actualPath);
         String pattern = readFile(this.patternPath);
+        if (this.expectedMessagePath != null) {
+            String expectedMessage = readFile(this.expectedMessagePath);
+            exception.expect(AssertionError.class);
+            exception.expectMessage(expectedMessage);
+        }
         MajxKt.assertJsonMatches(actual, pattern, this.mustacheScope);
     }
 }
