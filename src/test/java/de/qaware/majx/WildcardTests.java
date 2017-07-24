@@ -187,6 +187,6 @@ public class WildcardTests {
             exception.expectMessage(expectedMessage);
         }
 
-        Majx.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(pattern, actual);
     }
 }

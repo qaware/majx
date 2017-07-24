@@ -96,14 +96,14 @@ class JsonMatcher(val mustacheScope: Any?) {
         /**
          * Validate that array or object sizes are correct. If there is a wildcard in the pattern object this means that the
          * actual object may contain more elements than the pattern object.
-
-         * @param actual       Actual value
-         * @param pattern      Pattern object
-         * @param locationInfo Location information for error output
-         * @param <T>          Type of container to check
+         *
+         * @param pattern      Pattern object.
+         * @param actual       Actual value.
+         * @param locationInfo Location information for error output.
+         * @param <T>          Type of container to check.
          */
-        private fun <T : ContainerNode<T>> validateCorrectSize(actual: ContainerNode<T>,
-                                                               pattern: ContainerNode<T>,
+        private fun <T : ContainerNode<T>> validateCorrectSize(pattern: ContainerNode<T>,
+                                                               actual: ContainerNode<T>,
                                                                locationInfo: String) {
             if (containsWildcard(pattern)) {
                 // Wildcard: Number of elements must be greater or equal to the number of actually specified elements
@@ -148,15 +148,15 @@ class JsonMatcher(val mustacheScope: Any?) {
      * root.
 
      * @param reason  The error message to prepend to the JSON matcher error message if validation fails.
+     * @param pattern Pattern object.
      * @param actual   Actual value.
-     * @param expected Pattern object.
      */
-    fun assertMatches(reason: String?, actual: JsonNode, expected: JsonNode) {
+    fun assertMatches(reason: String?, pattern: JsonNode, actual: JsonNode) {
         try {
-            validate(actual, expected, "$")
+            validate(pattern, actual, "$")
         } catch (ex: AssertionError) {
             val actualAsText = convertToString(actual)
-            val expectedAsText = convertToString(expected)
+            val expectedAsText = convertToString(pattern)
 
             val mustacheScopeString = if (this.mustacheScope != null) {
                 """
@@ -197,24 +197,25 @@ class JsonMatcher(val mustacheScope: Any?) {
 
     /**
      * Recursively validate that the actual value matches the pattern object (potentially with wildcards)
-
-     * @param actual        Actual value
-     * @param pattern       Pattern object
-     * @param attributeName Name of currently processed attribute (absolut path from root)
+     *
+     * @param pattern       Pattern object.
+     * @param actual        Actual value.
+     * @param attributeName Name of currently processed attribute (absolut path from root).
      */
-    private fun validate(actual: JsonNode, pattern: JsonNode, attributeName: String) {
+    private fun validate(pattern: JsonNode, actual: JsonNode, attributeName: String) {
         if (isWildcard(pattern)) {
             return
         }
 
         val locationInfo = formatLocation(attributeName)
-        assertThat<JsonNodeType>(locationInfo + "Incorrect type of attribute", actual.nodeType, `is`<JsonNodeType>(pattern.nodeType))
+        assertThat<JsonNodeType>(locationInfo + "Incorrect type of attribute",
+                actual.nodeType, `is`<JsonNodeType>(pattern.nodeType))
 
         when {
-            pattern is ObjectNode && actual is ObjectNode -> validateObject(actual, pattern, attributeName)
-            pattern is ArrayNode && actual is ArrayNode -> validateArray(actual, pattern, attributeName)
-            pattern is TextNode && actual is TextNode -> validateString(actual, pattern, attributeName)
-            pattern is ValueNode && actual is ValueNode -> validateScalar(actual, pattern, attributeName)
+            pattern is ObjectNode && actual is ObjectNode -> validateObject(pattern, actual, attributeName)
+            pattern is ArrayNode && actual is ArrayNode -> validateArray(pattern, actual, attributeName)
+            pattern is TextNode && actual is TextNode -> validateString(pattern, actual, attributeName)
+            pattern is ValueNode && actual is ValueNode -> validateScalar(pattern, actual, attributeName)
             else -> {
                 val error = "Incompatible types in actual and expected. " +
                         "Type of actual: ${actual.javaClass.toString()}, " +
@@ -226,14 +227,14 @@ class JsonMatcher(val mustacheScope: Any?) {
 
     /**
      * Recursively validate that the actual value matches the pattern object (potentially with wildcards).
-
-     * @param actual        Actual value
-     * @param pattern       Pattern object
-     * @param attributeName Name of currently processed attribute (absolut path from root)
+     *
+     * @param pattern       Pattern object.
+     * @param actual        Actual value.
+     * @param attributeName Name of currently processed attribute (absolut path from root).
      */
-    private fun validateObject(actual: ObjectNode, pattern: ObjectNode, attributeName: String) {
+    private fun validateObject(pattern: ObjectNode, actual: ObjectNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
-        validateCorrectSize<ObjectNode>(actual, pattern, locationInfo)
+        validateCorrectSize<ObjectNode>(pattern, actual, locationInfo)
 
         val expectedFieldNames = pattern.fieldNames()
         while (expectedFieldNames.hasNext()) {
@@ -243,37 +244,37 @@ class JsonMatcher(val mustacheScope: Any?) {
             }
             assertThat<JsonNode>("${locationInfo} Expected field name '$expectedFieldName' not found.",
                     actual.get(expectedFieldName), notNullValue())
-            validate(actual.get(expectedFieldName), pattern.get(expectedFieldName),
+            validate(pattern.get(expectedFieldName), actual.get(expectedFieldName),
                     "$attributeName.$expectedFieldName")
         }
     }
 
     /**
      * Recursively validate that the actual value matches the pattern object (potentially with wildcards).
-
-     * @param actual        Actual value
-     * @param pattern       Pattern object
-     * @param attributeName Name of currently processed attribute (absolut path from root)
+     *
+     * @param pattern       Pattern object.
+     * @param actual        Actual value.
+     * @param attributeName Name of currently processed attribute (absolut path from root).
      */
-    private fun validateArray(actual: ArrayNode, pattern: ArrayNode, attributeName: String) {
+    private fun validateArray(pattern: ArrayNode, actual: ArrayNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
-        validateCorrectSize(actual, pattern, locationInfo)
+        validateCorrectSize(pattern, actual, locationInfo)
 
         // If pattern contains wildcard only the elements up to the wildcard must match.
         val maxIndex = if (containsWildcard(pattern)) pattern.size() - 2 else pattern.size() - 1
         for (i in 0..maxIndex) {
-            validate(actual.get(i), pattern.get(i), "$attributeName[$i]")
+            validate(pattern.get(i), actual.get(i), "$attributeName[$i]")
         }
     }
 
     /**
      * Validate string match, potentially using mustache template engine to replace variable parts of the string
-
-     * @param actual        Actual value
-     * @param pattern       Pattern object
-     * @param attributeName Name of currently processed attribute (absolut path from root)
+     *
+     * @param pattern       Pattern object.
+     * @param actual        Actual value.
+     * @param attributeName Name of currently processed attribute (absolut path from root).
      */
-    private fun validateString(actual: TextNode, pattern: TextNode, attributeName: String) {
+    private fun validateString(pattern: TextNode, actual: TextNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
         val patternText = pattern.textValue()
         MustacheMatcher.assertEqual(locationInfo + "Value does not match", patternText, actual.textValue(),
@@ -282,12 +283,12 @@ class JsonMatcher(val mustacheScope: Any?) {
 
     /**
      * Recursively validate that the actual value matches the pattern object (potentially with wildcards).
-
-     * @param actual        Actual value
-     * @param pattern       Pattern object
-     * @param attributeName Name of currently processed attribute (absolut path from root)
+     *
+     * @param pattern       Pattern object.
+     * @param actual        Actual value.
+     * @param attributeName Name of curretly processed attribute (absolut path from root).
      */
-    private fun validateScalar(actual: ValueNode, pattern: ValueNode, attributeName: String) {
+    private fun validateScalar(pattern: ValueNode, actual: ValueNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
         assertThat<String>(locationInfo + "Element does not match", actual.asText(), `is`<String>(pattern.asText()))
     }

@@ -93,6 +93,6 @@ public class UnexpectedTests {
 
         exception.expect(AssertionError.class);
         exception.expectMessage(expectedMessage);
-        Majx.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(pattern, actual);
     }
 }

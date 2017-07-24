@@ -64,6 +64,6 @@ public class EmptyTests {
     public void test() throws IOException {
         String actual = readFile(this.actualPath);
         String pattern = readFile(this.patternPath);
-        Majx.assertJsonMatches(actual, pattern);
+        Majx.assertJsonMatches(pattern, actual);
     }
 }
