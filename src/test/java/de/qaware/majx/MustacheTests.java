@@ -33,7 +33,6 @@ import org.junit.runners.Parameterized;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Map;
 
 import static de.qaware.majx.TestSupportKt.readFile;
 
@@ -48,7 +47,7 @@ public class MustacheTests {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {
-                        "success: mixed use",
+                        "success: mixed use with Map<String,String> mustache scope",
                         "mustache/success/actual.json",
                         "mustache/success/pattern.json",
                         ImmutableMap.<String, String>builder()
@@ -58,26 +57,40 @@ public class MustacheTests {
                         null
                 },
                 {
-                        "error: value mismatch",
-                        "mustache/errorValueMismatch/actual.json",
-                        "mustache/errorValueMismatch/pattern.json",
+                        "success: mixed use with POJO mustache scope",
+                        "mustache/success/actual.json",
+                        "mustache/success/pattern.json",
+                        new MustacheScopePojo("mustacheValue1", "https://base.com"),
+                        null
+                },
+                {
+                        "error: value mismatch with Map<String,String> mustache scope",
+                        "mustache/errorValueMismatch/mapMustacheScope/actual.json",
+                        "mustache/errorValueMismatch/mapMustacheScope/pattern.json",
                         ImmutableMap.<String, String>builder()
                                 .put("baseUrl", "https://base.com")
                                 .build(),
-                        "mustache/errorValueMismatch/expectedMessage.txt",
+                        "mustache/errorValueMismatch/mapMustacheScope/expectedMessage.txt",
+                },
+                {
+                        "error: value mismatch with POJO mustache scope",
+                        "mustache/errorValueMismatch/pojoMustacheScope/actual.json",
+                        "mustache/errorValueMismatch/pojoMustacheScope/pattern.json",
+                        new MustacheScopePojo(null, "https://base.com"),
+                        "mustache/errorValueMismatch/pojoMustacheScope/expectedMessage.txt",
                 }
         });
     }
 
     private String actualPath;
     private String patternPath;
-    private Map<String, String> mustacheScope;
+    private Object mustacheScope;
     private String expectedMessagePath;
 
     public MustacheTests(String testName,
                          String actualPath,
                          String patternPath,
-                         Map<String, String> mustacheScope,
+                         Object mustacheScope,
                          String expectedMessagePath
     ) {
         this.actualPath = actualPath;
@@ -96,5 +109,31 @@ public class MustacheTests {
             exception.expectMessage(expectedMessage);
         }
         Majx.assertJsonMatches(pattern, actual, this.mustacheScope);
+    }
+
+    private static class MustacheScopePojo {
+        private String mustacheVar1;
+        private String baseUrl;
+
+        MustacheScopePojo(String mustacheVar1, String baseUrl) {
+            this.mustacheVar1 = mustacheVar1;
+            this.baseUrl = baseUrl;
+        }
+
+        public String getMustacheVar1() {
+            return mustacheVar1;
+        }
+
+        public String getBaseUrl() {
+            return baseUrl;
+        }
+
+        @Override
+        public String toString() {
+            return "MustacheScopePojo{" +
+                    "mustacheVar1='" + mustacheVar1 + '\'' +
+                    ", baseUrl='" + baseUrl + '\'' +
+                    '}';
+        }
     }
 }
