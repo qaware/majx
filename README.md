@@ -97,6 +97,12 @@ Instead, it's value is ``"head up display"``.
 is ``"https://other.com/cars/12"``.
 5. does not have a property ``$.color`` with any value.
 
+## Related Work
+
+* Hamcrest matchers for JSON documents, https://github.com/hertzsprung/hamcrest-json
+* Write JSON unit tests in less code, https://github.com/skyscreamer/JSONassert
+* Compare JSON in your Unit Tests, https://github.com/lukas-krecan/JsonUnit
+
 ## Maintainer
 
 Claudius Boettcher, <claudius.boettcher@qaware.de>.
