@@ -35,8 +35,9 @@ import org.hamcrest.Matchers.*
  * Can use templates on strings to check against dynamic test expectations.
  * Accepts wildcards.
  *
- * @param mustacheScope The scope from which the mustache parser reads it variables. May be a map or a POJO. This is
- *                      used in case we need dynamic test expectations.
+ * @property mustacheScope The scope from which the mustache parser reads it variables. May be a map or a POJO.
+ *                         This is used in case we need dynamic test expectations.
+ * @constructor Creates a new [JsonMatcher] with the given [mustacheScope].
  */
 class JsonMatcher(val mustacheScope: Any?) {
 
