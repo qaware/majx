@@ -24,7 +24,6 @@
 package de.qaware.majx
 
 import com.fasterxml.jackson.databind.JsonNode
-import java.io.IOException
 
 private val JSON_MAPPER = createObjectMapper()
 
@@ -34,14 +33,7 @@ private val JSON_MAPPER = createObjectMapper()
  * @param object Json node that should be converted
  * @return Stringified version
  */
-fun convertToString(`object`: JsonNode): String {
-    try {
-        return JSON_MAPPER.writeValueAsString(`object`)
-    } catch (e: IOException) {
-        throw IllegalArgumentException("Failed to serialize JSON", e)
-    }
-
-}
+fun convertToString(`object`: JsonNode): String = JSON_MAPPER.writeValueAsString(`object`)
 
 /**
  * Convert the string into a json node.
