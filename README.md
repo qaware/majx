@@ -97,6 +97,48 @@ Instead, it's value is ``"head up display"``.
 is ``"https://other.com/cars/12"``.
 5. does not have a property ``$.color`` with any value.
 
+## Usage
+
+```java
+// Obtain actual and pattern JSONs as strings or jackson JsonNodes.
+String actual = ...;
+String pattern = readResource("path/to/my/pattern.json");
+
+// Create a mustache scope (if pattern contains mustache expressions).
+Map<String,String> mustacheScope = ImmutableMap.<String, String>builder()
+    .put("baseUrl", "https://base.com")
+    .build()
+
+// Validate
+Majx.assertJsonMatches(pattern, actual, mustacheScope);
+```
+
+If the actual JSON does not match the pattern the error message might look like this:
+
+```
+Error at location $.url: Value does not match. Pattern was evaluated as mustache expression. Original pattern: {{baseUrl}}/path/to/file
+Expected: is "https://base.com/path/to/file"
+     but: was "https://other.com/path/to/file".
+
+--------------------------------------------------------------------------------------------
+Actual JSON
+--------------------------------------------------------------------------------------------
+{
+  "url" : "https://other.com/path/to/file"
+}
+
+--------------------------------------------------------------------------------------------
+Pattern
+--------------------------------------------------------------------------------------------
+{
+  "url" : "{{baseUrl}}/path/to/file"
+}
+--------------------------------------------------------------------------------------------
+Mustache Scope
+--------------------------------------------------------------------------------------------
+baseUrl = https://base.com
+```
+
 ## Related Work
 
 * Hamcrest matchers for JSON documents, https://github.com/hertzsprung/hamcrest-json
