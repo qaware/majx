@@ -1,5 +1,5 @@
 # majx - Matching JSON expressively
-[![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
+[![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.png?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
 
 Majx is a small, focused test library that helps to verify that a JSON document fulfils your expectations regarding
 structure and values.
@@ -116,7 +116,7 @@ Majx.assertJsonMatches(pattern, actual, mustacheScope);
 If the actual JSON does not match the pattern the error message might look like this:
 
 ```
-Error at location $.url: Value does not match. Pattern was evaluated as mustache expression. 
+Error at location $.url: Value does not match. Pattern was evaluated as mustache expression.
 Original pattern: {{baseUrl}}/path/to/file
 Expected: is "https://base.com/path/to/file"
      but: was "https://other.com/path/to/file".
