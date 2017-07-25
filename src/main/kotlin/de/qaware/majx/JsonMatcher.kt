@@ -39,8 +39,11 @@ import org.hamcrest.Matchers.*
  *                         This is used in case we need dynamic test expectations.
  * @constructor Creates a new [JsonMatcher] with the given [mustacheScope].
  */
-class JsonMatcher(val mustacheScope: Any?) {
+class JsonMatcher(private val mustacheScope: Any?) {
 
+    /**
+     * Companion object provides support methods for [JsonMatcher].
+     */
     companion object {
 
         /**
