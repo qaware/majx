@@ -20,7 +20,6 @@ plugins {
 }
 
 group 'de.qaware'
-version '1.0-SNAPSHOT'
 
 ext.versions = [
     jacksonVersion     : '2.8.9',
