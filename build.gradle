@@ -60,8 +60,6 @@ dependencies {
     compile group: 'commons-io', name: 'commons-io', version: versions.commonsIoVersion
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3Version
-    // https://mvnrepository.com/artifact/com.google.guava/guava
-    compile group: 'com.google.guava', name: 'guava', version: versions.guavaVersion
 
     // Logging
     // http://mvnrepository.com/artifact/org.slf4j/slf4j-api
@@ -69,6 +67,8 @@ dependencies {
 
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.12'
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    testCompile group: 'com.google.guava', name: 'guava', version: versions.guavaVersion
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {

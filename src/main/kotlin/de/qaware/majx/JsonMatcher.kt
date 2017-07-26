@@ -25,7 +25,6 @@ package de.qaware.majx
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.*
-import com.google.common.collect.Sets
 import org.hamcrest.MatcherAssert.assertThat
 import org.hamcrest.Matchers.*
 
@@ -123,9 +122,10 @@ class JsonMatcher(private val mustacheScope: Any?) {
                 } else if (actual.isObject) {
                     val expectedPropertiesSet = asSet(pattern.fieldNames())
                     val actualPropertiesSet = asSet(actual.fieldNames())
-                    val notMatchedSet = Sets.difference(
-                            Sets.union<String>(expectedPropertiesSet, actualPropertiesSet),
-                            Sets.intersection<String>(expectedPropertiesSet, actualPropertiesSet))
+
+                    val notMatchedSet = expectedPropertiesSet.union(actualPropertiesSet).minus(
+                            expectedPropertiesSet.intersect(actualPropertiesSet)
+                    )
                     val notMatched = if (notMatchedSet.isNotEmpty()) notMatchedSet.joinToString() else "(empty)"
                     val expectedProperties = if (expectedPropertiesSet.isNotEmpty())
                         expectedPropertiesSet.joinToString() else "(empty)"
