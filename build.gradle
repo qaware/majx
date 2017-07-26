@@ -19,6 +19,7 @@ plugins {
     id 'org.jetbrains.dokka' version '0.9.15'
     id 'net.researchgate.release' version '2.6.0'
     id 'distribution'
+    id 'maven-publish'
     id 'com.jfrog.bintray' version '1.7.3'
 }
 
@@ -160,33 +161,33 @@ def pomConfig = {
     }
 }
 
-//publishing {
-//    publications {
-//        basePlugin(MavenPublication) {
-//            from components.java
-//            archives javadocJar
-//            archives sourcesJar
-//
-//            pom.withXml {
-//                asNode().appendNode('name', project.displayName)
-//                asNode().appendNode('description', project.description)
-//                asNode().appendNode('url', project.websiteUrl)
-//
-//                asNode().children().last() + pomConfig
-//            }
-//        }
-//    }
-//    repositories {
-//        // set the properties via -P to publish to your company repo
-//        maven {
-//            url = project.hasProperty('nexusUrl') ? project.nexusUrl : ''
-//            credentials {
-//                username = project.hasProperty('nexusUsername') ? project.nexusUsername : ''
-//                password = project.hasProperty('nexusPassword') ? project.nexusPassword : ''
-//            }
-//        }
-//    }
-//}
+publishing {
+    publications {
+        basePlugin(MavenPublication) {
+            from components.java
+            artifact javadocJar
+            artifact sourcesJar
+
+            pom.withXml {
+                asNode().appendNode('name', project.displayName)
+                asNode().appendNode('description', project.description)
+                asNode().appendNode('url', project.websiteUrl)
+
+                asNode().children().last() + pomConfig
+            }
+        }
+    }
+    repositories {
+        // set the properties via -P to publish to your company repo
+        maven {
+            url = project.hasProperty('nexusUrl') ? project.nexusUrl : ''
+            credentials {
+                username = project.hasProperty('nexusUsername') ? project.nexusUsername : ''
+                password = project.hasProperty('nexusPassword') ? project.nexusPassword : ''
+            }
+        }
+    }
+}
 
 bintray {
     user = project.hasProperty('bintrayUsername') ? project.bintrayUsername : 'unknown'
