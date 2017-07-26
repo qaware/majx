@@ -56,8 +56,6 @@ dependencies {
     compile 'com.github.spullara.mustache.java:compiler:0.9.5'
 
     // Utils
-    // https://mvnrepository.com/artifact/commons-io/commons-io
-    compile group: 'commons-io', name: 'commons-io', version: versions.commonsIoVersion
     // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
     compile group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3Version
 
@@ -69,6 +67,8 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     // https://mvnrepository.com/artifact/com.google.guava/guava
     testCompile group: 'com.google.guava', name: 'guava', version: versions.guavaVersion
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    testCompile group: 'commons-io', name: 'commons-io', version: versions.commonsIoVersion
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
