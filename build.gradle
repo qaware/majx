@@ -17,6 +17,7 @@ plugins {
     id 'com.github.kt3k.coveralls' version '2.6.3'
     id "com.github.hierynomus.license" version "0.14.0"
     id 'org.jetbrains.dokka' version '0.9.15'
+    id 'net.researchgate.release' version '2.6.0'
 }
 
 group 'de.qaware'
@@ -109,6 +110,12 @@ license {
     strictCheck true
     include '**/*.kt'
     include '**/*.java'
+}
+
+release {
+    tagCommitMessage = '[#1] Gradle Release Plugin - creating tag: '
+    newVersionCommitMessage = '[#1] Gradle Release Plugin - new version: '
+    tagTemplate = 'v${version}'
 }
 
 def pomConfig = {
