@@ -40,7 +40,6 @@ ext.versions = [
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
-    testCompile "org.jetbrains.kotlin:kotlin-test"
 
     // JSON Mapping
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
@@ -55,14 +54,11 @@ dependencies {
     // Mustache
     compile 'com.github.spullara.mustache.java:compiler:0.9.5'
 
-    // Utils
-    // https://mvnrepository.com/artifact/org.apache.commons/commons-lang3
-    compile group: 'org.apache.commons', name: 'commons-lang3', version: versions.commonsLang3Version
-
     // Logging
     // http://mvnrepository.com/artifact/org.slf4j/slf4j-api
     compile group: 'org.slf4j', name: 'slf4j-api', version: versions.slf4JVersion
 
+    testCompile "org.jetbrains.kotlin:kotlin-test"
     // https://mvnrepository.com/artifact/junit/junit
     testCompile group: 'junit', name: 'junit', version: '4.12'
     // https://mvnrepository.com/artifact/com.google.guava/guava
