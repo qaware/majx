@@ -214,13 +214,13 @@ bintray {
 }
 
 distributions {
-    main {}
     release {
-        baseName = 'majx'
         contents {
             from ('build/libs') {
                 include '*.jar'
             }
+            from 'README.md'
+            from 'LICENSE'
         }
     }
 }
