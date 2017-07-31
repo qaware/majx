@@ -225,6 +225,9 @@ distributions {
     }
 }
 
+releaseDistZip.dependsOn sourcesJar
+releaseDistTar.dependsOn sourcesJar
+
 task wrapper(type: Wrapper) {
     gradleVersion = '4.0.2'
 }
