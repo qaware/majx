@@ -228,6 +228,8 @@ distributions {
     }
 }
 
+// Make sure the sources jar is there when packaging the
+// distribution archives.
 releaseDistZip.dependsOn sourcesJar
 releaseDistTar.dependsOn sourcesJar
 
