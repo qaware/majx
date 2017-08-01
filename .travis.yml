@@ -1,12 +1,22 @@
 language: java
 jdk:
-  - oraclejdk8
+- oraclejdk8
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
+  - $HOME/.gradle/caches/
+  - $HOME/.gradle/wrapper/
 after_success:
 - ./gradlew jacocoTestReport coveralls
+deploy:
+  provider: releases
+  api_key:
+    secure: f310/pL7iFnMXgnHImdM9GzJSTVRzRchrA7xvwYtukRus8/7sccrEEZl80q7zkUcXZAf/XTHlSTADnOKDEifFzOfK42reL+RyHHc9mn4+BQ3ZmU0kRVbeFmTgNO9SCjK/2hyLQOFUxpCCSqFnWLRcAJjI0g5QTnM0qPojEhdvr2F04/qmRGujgDQ+T0sNstqBLkOSYXTLcv8Ah8lLeiWhmWbmB1qbTa1TZ3aoz0XScj3IZcOSd2KpfE3QZeIMady5yOpp3MqqXQGLUpM7rYdgcTbwcrx+d3NQzBLVsYr4FcLHQincjkDkTtBcrDSPhThr58LrNVeV0Fu2KzSgHWRby6Y+vKdDpgq+TRn5Fc6uCQteFw516ew8X8XDDFoohULbeJoz4j4kDvC70koGQzbwIVJbgR2c0bZDLSVCn/Q8oMTehHyoJkMqq1l5TT9kBcscypL3VkmXaYQBRFgQIuyoQSfdwZwB5/V29PV5pz+vrV1rvz+s8nyuPqnwvukA9igzb2cuH5FgRDs76VtgqOVXIoB6AO88VYyTOjtrgaK7WcHvGjuFLUbgKQlQsw69wD0hymOaST1KKQarbg46et+Lo4r5kuh5lWBi6Wt2FaWSCnd4VVumY+vE1oDQw55QONkUxZnOnFxoC22ZeIzZD2eMQv13ihkpqDnJtd0Ojwmfaw=
+  file:
+    - ./build/distributions/majx-release-0.9.0.zip
+    - ./build/distributions/majx-release-0.9.0.tar
+  skip_cleanup: true
+  on:
+    tags: true
