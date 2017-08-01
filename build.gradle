@@ -112,10 +112,13 @@ license {
 }
 
 release {
+    preTagCommitMessage = '[#1] Gradle Release Plugin - pre tag commit: '
     tagCommitMessage = '[#1] Gradle Release Plugin - creating tag: '
     newVersionCommitMessage = '[#1] Gradle Release Plugin - new version: '
     tagTemplate = 'v${version}'
 }
+
+afterReleaseBuild.dependsOn bintrayUpload
 
 def pomConfig = {
 
