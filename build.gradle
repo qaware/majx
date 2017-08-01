@@ -23,7 +23,7 @@ plugins {
     id 'com.jfrog.bintray' version '1.7.3'
 }
 
-group 'de.qaware'
+group 'de.qaware.majx'
 
 repositories {
     mavenCentral()
