@@ -116,6 +116,7 @@ release {
     tagCommitMessage = '[#1] Gradle Release Plugin - creating tag: '
     newVersionCommitMessage = '[#1] Gradle Release Plugin - new version: '
     tagTemplate = 'v${version}'
+    buildTasks = ['clean', 'build']
 }
 
 afterReleaseBuild.dependsOn bintrayUpload
