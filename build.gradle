@@ -169,6 +169,7 @@ publishing {
             artifact sourcesJar
 
             pom.withXml {
+                asNode().appendNode('packaging', 'jar')
                 asNode().appendNode('name', project.displayName)
                 asNode().appendNode('description', project.description)
                 asNode().appendNode('url', project.websiteUrl)
