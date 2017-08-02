@@ -44,6 +44,7 @@ gradle-app.setting
 target/
 *.ipr
 *.iws
+*.iml
 *.ids
 **/.idea/*
 !.idea/runConfigurations/
