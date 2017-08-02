@@ -230,9 +230,4 @@ distributions {
 
 // Make sure the sources jar is there when packaging the
 // distribution archives.
-releaseDistZip.dependsOn sourcesJar
-releaseDistTar.dependsOn sourcesJar
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.0.2'
-}
+jar.finalizedBy sourcesJar
