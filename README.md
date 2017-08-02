@@ -1,6 +1,6 @@
 ![majx Logo](/doc/majx-logo-medium.png)
 ## Matching JSON expressively
-[![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]()
+[![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]() [![Download](https://api.bintray.com/packages/qaware-oss/maven/majx/images/download.svg) ](https://bintray.com/qaware-oss/maven/majx/_latestVersion)
 
 Majx is a small, focused test library that helps to verify that a JSON document fulfils your expectations regarding
 structure and values.
