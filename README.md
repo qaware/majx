@@ -2,19 +2,71 @@
 ## Matching JSON expressively
 [![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]() [![Download](https://api.bintray.com/packages/qaware-oss/maven/majx/images/download.svg) ](https://bintray.com/qaware-oss/maven/majx/_latestVersion)
 
-Majx is a small, focused test library that helps to verify that a JSON document fulfils your expectations regarding
+Majx is a small test library that helps to verify that a JSON document fulfils your expectations regarding
 structure and values.
 
-You provide a JSON document, that you wish to test - let's call it the **actual JSON document**
-along with another JSON document that describes the things you with to verify - let's call this one the **pattern JSON document**.
+You provide a two JSON documents
 
-The main idea of this lib is that we try to let you express almost all of your expectations in a flexible, readable
-and concise way within the **pattern JSON document**. To achieve this, the **pattern JSON document** may contain magic
+1. The **pattern** JSON that describes your expectations
+2. The **actual** JSON that should be tested
+
+We try to let you express almost all of your expectations in a flexible, readable
+and concise way within the **pattern**. To achieve this, the **pattern** may contain magic
 values, that are treated in a certain way.
 
-## Writing the pattern
+Lets start with the basics
 
-An example pattern would be the following JSON:
+## Matching attributes and values exactly
+
+This **pattern**
+```
+{
+  "expected" : "to be here"
+}
+```
+
+matches this **actual** JSON
+
+```
+{
+  "expected" : "to be here"
+}
+```
+
+... but does not match this one
+
+```
+{}
+```
+
+```
+Majx.assertJsonMatches(pattern, actual);
+```
+Results in an ``AssertionError``
+```
+Error at location $: Size of object properties does not match.
+Expected properties:       expected
+Actual properties:         (empty)
+Not matched properties:    expected
+Expected: <1>
+     but: was <0>.
+
+--------------------------------------------------------------------------------------------
+Actual JSON
+--------------------------------------------------------------------------------------------
+{ }
+
+--------------------------------------------------------------------------------------------
+Pattern
+--------------------------------------------------------------------------------------------
+{
+  "expected" : "to be here"
+}
+```
+
+## Full example
+
+Full example **pattern**:
 
 ```
 {
