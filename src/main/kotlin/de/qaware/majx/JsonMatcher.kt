@@ -111,7 +111,8 @@ class JsonMatcher(private val mustacheScope: Any?) {
             if (containsWildcard(pattern)) {
                 // Wildcard: Number of elements must be greater or equal to the number of actually specified elements
                 val specifiedElems = pattern.size() - 1
-                assertThat<Int>("${locationInfo}Actual array too short",
+                val actualContainerType = if (actual.isArray()) "array" else "object"
+                assertThat<Int>("${locationInfo}Actual $actualContainerType size too small",
                         actual.size(),
                         greaterThanOrEqualTo<Int>(specifiedElems))
             } else {

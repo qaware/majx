@@ -107,9 +107,9 @@ public class WildcardTests {
                 },
                 {
                         "object wildcard: actual object has too few properties",
-                        "wildcard/objectWildcard/errorActualArrayTooShort/actual.json",
-                        "wildcard/objectWildcard/errorActualArrayTooShort/pattern.json",
-                        "wildcard/objectWildcard/errorActualArrayTooShort/expectedMessage.txt",
+                        "wildcard/objectWildcard/errorActualObjectTooShort/actual.json",
+                        "wildcard/objectWildcard/errorActualObjectTooShort/pattern.json",
+                        "wildcard/objectWildcard/errorActualObjectTooShort/expectedMessage.txt",
                 },
                 {
                         "object wildcard: success with no additional properties",

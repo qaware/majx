@@ -1,4 +1,4 @@
-Error at location $: Actual array too short
+Error at location $: Actual array size too small
 Expected: a value equal to or greater than <3>
      but: <2> was less than <3>.
 
