@@ -107,7 +107,17 @@ in the pattern:
   "i" : "am unexpected"
 }
 ```
-
+Error:
+```
+Error at location $: Size of object properties does not match.
+Expected properties:       expected
+Actual properties:         expected, i
+Not matched properties:    i
+Expected: <1>
+     but: was <2>.
+     
+... (actual and pattern JSONs omitted)
+```
 ## Full example
 
 Full example **pattern**:
