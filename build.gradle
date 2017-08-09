@@ -151,7 +151,7 @@ def pomConfig = {
 
     developers {
         developer {
-            id 'cboettcher'
+            id 'clboettcher'
             name 'Claudius Boettcher'
             email 'claudius.boettcher@qaware.de'
             organization 'QAware GmbH'
