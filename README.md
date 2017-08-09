@@ -20,7 +20,8 @@ values, that are treated in a certain way.
 
 The JARs are available via JCenter and Maven Central. 
 
-If you are using Maven to build your project, add the following to the `pom.xml` file:
+If you are using Maven to build your project, add the following to the `pom.xml` file.
+Since majx is written in Kotlin, it requires the `kotlin-stdlib`.
 
 ```XML
 <!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
@@ -28,6 +29,14 @@ If you are using Maven to build your project, add the following to the `pom.xml`
     <groupId>de.qaware.majx</groupId>
     <artifactId>majx</artifactId>
     <version>0.9.1</version>
+    <scope>test</scope>
+</dependency>
+<!-- https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib -->
+<!-- de.qaware.majx:majx requires kotlin-stdlib -->
+<dependency>
+    <groupId>org.jetbrains.kotlin</groupId>
+    <artifactId>kotlin-stdlib</artifactId>
+    <version>1.1.3-2</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -43,6 +52,9 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/de.qaware.majx/majx
     testCompile group: 'de.qaware.majx', name: 'majx', version: '0.9.1'
+    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
+    // de.qaware.majx:majx requires kotlin-stdlib
+    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.1.3-2'
 }
 ```
 
