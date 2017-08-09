@@ -18,8 +18,9 @@ values, that are treated in a certain way.
 
 ## Dependencies
 
-The JARs are available via JCenter and Maven Central. If you are using Maven to build your project, add the following 
-to the `pom.xml` file:
+The JARs are available via JCenter and Maven Central. 
+
+If you are using Maven to build your project, add the following to the `pom.xml` file:
 
 ```XML
 <!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
@@ -27,6 +28,7 @@ to the `pom.xml` file:
     <groupId>de.qaware.majx</groupId>
     <artifactId>majx</artifactId>
     <version>0.9.1</version>
+    <scope>test</scope>
 </dependency>
 ```
 
@@ -34,12 +36,13 @@ In case you are using Gradle to build your project, add the following to the `bu
 
 ```groovy
 repositories {
+    jcenter()
     mavenCentral()
 }
 
 dependencies {
-	// https://mvnrepository.com/artifact/de.qaware.majx/majx
-    compile group: 'de.qaware.majx', name: 'majx', version: '0.9.1'
+    // https://mvnrepository.com/artifact/de.qaware.majx/majx
+    testCompile group: 'de.qaware.majx', name: 'majx', version: '0.9.1'
 }
 ```
 
