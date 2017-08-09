@@ -14,9 +14,38 @@ We try to let you express almost all of your expectations in a flexible, readabl
 and concise way within the **pattern**. To achieve this, the **pattern** may contain magic
 values, that are treated in a certain way.
 
-Lets start with the basics
+# Usage
+
+## Dependencies
+
+The JARs are available via JCenter and Maven Central. If you are using Maven to build your project, add the following 
+to the `pom.xml` file:
+
+```XML
+<!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
+<dependency>
+    <groupId>de.qaware.majx</groupId>
+    <artifactId>majx</artifactId>
+    <version>0.9.1</version>
+</dependency>
+```
+
+In case you are using Gradle to build your project, add the following to the `build.gradle` file:
+
+```groovy
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+	// https://mvnrepository.com/artifact/de.qaware.majx/majx
+    compile group: 'de.qaware.majx', name: 'majx', version: '0.9.1'
+}
+```
 
 ## Matching attributes and values exactly
+
+Lets start with the basics
 
 This **pattern**
 ```
@@ -39,10 +68,12 @@ matches this **actual** JSON
 {}
 ```
 
+The test
+
 ```
 Majx.assertJsonMatches(pattern, actual);
 ```
-Results in an ``AssertionError``
+results in an ``AssertionError``
 ```
 Error at location $: Size of object properties does not match.
 Expected properties:       expected
@@ -64,7 +95,8 @@ Pattern
 }
 ```
 
-nor this one:
+This **actual** JSON does not match either because it has unexpected properties that are not declared
+in the pattern:
 
 ```JSON
 {
@@ -161,7 +193,7 @@ is ``"https://other.com/cars/12"``.
 
 ## Usage
 
-```java
+```
 // Obtain actual and pattern JSONs as strings or jackson JsonNodes.
 String actual = ...;
 String pattern = readResource("path/to/my/pattern.json");
