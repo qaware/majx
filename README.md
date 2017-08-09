@@ -64,6 +64,15 @@ Pattern
 }
 ```
 
+nor this one:
+
+```JSON
+{
+  "expected" : "to be here",
+  "i" : "am unexpected"
+}
+```
+
 ## Full example
 
 Full example **pattern**:
