@@ -135,7 +135,7 @@ task updateVersionInReadme {
 }
 
 // Update versions in README before committing the release version
-//confirmReleaseVersion.dependsOn updateVersionInReadme
+confirmReleaseVersion.dependsOn updateVersionInReadme
 
 afterReleaseBuild.dependsOn bintrayUpload
 
