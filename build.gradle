@@ -119,6 +119,24 @@ release {
     buildTasks = ['clean', 'build']
 }
 
+task updateVersionInReadme {
+    description = "Update the versions in the README to the current version"
+    group = "release"
+    doFirst {
+        println "Updating version in README.md to ${version}."
+        def newReadme = file('README.md').text
+            .replaceAll(/<version>[\d.]+<\/version>/, "<version>${version}</version>")
+            .replaceAll(
+            /testCompile group: 'de\.qaware\.majx', name: 'majx', version: '[\d.]+'/,
+            "testCompile group: 'de.qaware.majx', name: 'majx', version: '${version}'")
+
+        file('README.md').write(newReadme)
+    }
+}
+
+// Update versions in README before committing the release version
+//confirmReleaseVersion.dependsOn updateVersionInReadme
+
 afterReleaseBuild.dependsOn bintrayUpload
 
 def pomConfig = {
