@@ -39,7 +39,7 @@ ext.versions = [
 ]
 
 dependencies {
-    compile "org.jetbrains.kotlin:kotlin-stdlib"
+    compile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: kotlin_version
 
     // JSON Mapping
     // https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
