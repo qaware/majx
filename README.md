@@ -18,10 +18,12 @@ values, that are treated in a certain way.
 
 ## Dependencies
 
-The JARs are available via JCenter and Maven Central. 
+The JARs are available via Maven Central and JCenter. 
 
 If you are using Maven to build your project, add the following to the `pom.xml` file.
-Since majx is written in Kotlin, it requires the `kotlin-stdlib`.
+
+:warning: To use the current version you have to manually include the `kotlin-stdlib` in your dependencies. 
+See https://github.com/qaware/majx/issues/18 for details.
 
 ```XML
 <!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
@@ -29,14 +31,6 @@ Since majx is written in Kotlin, it requires the `kotlin-stdlib`.
     <groupId>de.qaware.majx</groupId>
     <artifactId>majx</artifactId>
     <version>0.9.1</version>
-    <scope>test</scope>
-</dependency>
-<!-- https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib -->
-<!-- de.qaware.majx:majx requires kotlin-stdlib -->
-<dependency>
-    <groupId>org.jetbrains.kotlin</groupId>
-    <artifactId>kotlin-stdlib</artifactId>
-    <version>1.1.3-2</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -52,9 +46,6 @@ repositories {
 dependencies {
     // https://mvnrepository.com/artifact/de.qaware.majx/majx
     testCompile group: 'de.qaware.majx', name: 'majx', version: '0.9.1'
-    // https://mvnrepository.com/artifact/org.jetbrains.kotlin/kotlin-stdlib
-    // de.qaware.majx:majx requires kotlin-stdlib
-    testCompile group: 'org.jetbrains.kotlin', name: 'kotlin-stdlib', version: '1.1.3-2'
 }
 ```
 
