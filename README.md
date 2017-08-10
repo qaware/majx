@@ -22,9 +22,6 @@ The JARs are available via Maven Central and JCenter.
 
 If you are using Maven to build your project, add the following to the `pom.xml` file.
 
-:warning: To use the current version you have to manually include the `kotlin-stdlib` in your dependencies. 
-See https://github.com/qaware/majx/issues/18 for details.
-
 ```XML
 <!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
 <dependency>
