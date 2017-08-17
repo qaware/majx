@@ -46,79 +46,10 @@ dependencies {
 }
 ```
 
-## Matching attributes and values exactly
-
-Lets start with the basics
-
-This **pattern**
-```
-{
-  "expected" : "to be here"
-}
-```
-
-is matched by this **actual** JSON
-
-```
-{
-  "expected" : "to be here"
-}
-```
-
-... but not by this one
-
-```
-{}
-```
-
-The test
-
-```
-Majx.assertJsonMatches(pattern, actual);
-```
-results in an ``AssertionError``
-```
-Error at location $: Size of object properties does not match.
-Expected properties:       expected
-Actual properties:         (empty)
-Not matched properties:    expected
-Expected: <1>
-     but: was <0>.
-
---------------------------------------------------------------------------------------------
-Actual JSON
---------------------------------------------------------------------------------------------
-{ }
-
---------------------------------------------------------------------------------------------
-Pattern
---------------------------------------------------------------------------------------------
-{
-  "expected" : "to be here"
-}
-```
-
-This **actual** JSON does not match either because it has unexpected properties that are not declared
-in the pattern:
-
-```JSON
-{
-  "expected" : "to be here",
-  "i" : "am unexpected"
-}
-```
-Error:
-```
-Error at location $: Size of object properties does not match.
-Expected properties:       expected
-Actual properties:         expected, i
-Not matched properties:    i
-Expected: <1>
-     but: was <2>.
-     
-... (actual and pattern JSONs omitted)
-```
 ## Full example
+
+The following example shows all majx features. For details on individual features
+refer to the [wiki](https://github.com/qaware/majx/wiki).
 
 Full example **pattern**:
 
@@ -138,7 +69,7 @@ Full example **pattern**:
 }                               (10)
 ```
 
-An **actual JSON document** that you match with this pattern ...
+An **actual** JSON that you match against this pattern ...
 
 1. must have a property ``$.brand`` of type string with value ``"BMW"``.
 2. must have a property ``$.color`` of any type with any value.
@@ -157,7 +88,7 @@ because it has no wildcard-property (``"..." : "..."``) at the end.
 
 ## Matching an actual JSON document
 
-That means this **actual JSON document** will pass the validation given
+That means this **actual** JSON will pass the validation given
 that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
@@ -176,7 +107,7 @@ that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 }
 ```
 
-... but this **actual JSON document** will cause a validation error given
+... but this **actual** JSON will cause a validation error given
  that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
@@ -193,7 +124,7 @@ that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 }                                       (5)
 ```
 
-Why? Because the latter **actual JSON document** ...
+Why? Because the latter **actual** JSON ...
 
 1. does not have a property ``$.brand`` of type string with value``"BMW"``. Instead it's value is ``"VW"``.
 2. does not have a property ``$.engine.cylinders`` of type number with value ``4``. Instead it is of type
