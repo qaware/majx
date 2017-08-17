@@ -5,7 +5,7 @@
 Majx is a test library that helps to verify that a JSON document fulfils your expectations regarding
 structure and values.
 
-You provide a two JSON documents
+You provide two JSON documents
 
 1. The **pattern** JSON that describes your expectations
 2. The **actual** JSON that should be tested
@@ -57,7 +57,7 @@ This **pattern**
 }
 ```
 
-matches this **actual** JSON
+is matched by this **actual** JSON
 
 ```
 {
@@ -65,7 +65,7 @@ matches this **actual** JSON
 }
 ```
 
-... but does not match this one
+... but not by this one
 
 ```
 {}
