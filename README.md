@@ -51,6 +51,8 @@ dependencies {
 The following example shows all majx features. For details on individual features
 refer to the [wiki](https://github.com/qaware/majx/wiki).
 
+### Writing the Pattern
+
 Full example **pattern**:
 
 ```
@@ -69,7 +71,7 @@ Full example **pattern**:
 }                               (10)
 ```
 
-An **actual** JSON that you match against this pattern ...
+This **pattern** states that an **actual** JSON ...
 
 1. must have a property ``$.brand`` of type string with value ``"BMW"``.
 2. must have a property ``$.color`` of any type with any value.
@@ -86,7 +88,7 @@ determined at runtime by looking up the mustache expression ``{{baseUrl}}`` in a
 10. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above)
 because it has no wildcard-property (``"..." : "..."``) at the end.
 
-## Matching an actual JSON document
+### Matching an actual JSON document
 
 That means this **actual** JSON will pass the validation given
 that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
@@ -107,7 +109,7 @@ that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 }
 ```
 
-... but this **actual** JSON will cause a validation error given
+... but matching this **actual** JSON will cause an `AssertionError` given
  that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
@@ -135,7 +137,7 @@ Instead, it's value is ``"head up display"``.
 is ``"https://other.com/cars/12"``.
 5. does not have a property ``$.color`` with any value.
 
-## Usage
+### Test Code
 
 ```
 // Obtain actual and pattern JSONs as strings or jackson JsonNodes.
@@ -179,16 +181,16 @@ Mustache Scope
 baseUrl = https://base.com
 ```
 
-## Related Work
+# Related Work
 
 * Hamcrest matchers for JSON documents, https://github.com/hertzsprung/hamcrest-json
 * Write JSON unit tests in less code, https://github.com/skyscreamer/JSONassert
 * Compare JSON in your Unit Tests, https://github.com/lukas-krecan/JsonUnit
 
-## Maintainer
+# Maintainer
 
 Claudius Boettcher, <claudius.boettcher@qaware.de>.
 
-## License
+# License
 
 This software is provided under the MIT open source license, read the `LICENSE` file for details.
