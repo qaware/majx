@@ -45,4 +45,11 @@ public class DocsTests {
         String pattern = readFile("docs/exact/pattern.json");
         Majx.assertJsonMatches(pattern, actual);
     }
+
+    @Test
+    public void exactMatchError() throws Exception {
+        String actual = readFile("docs/exact/actual.error.json");
+        String pattern = readFile("docs/exact/pattern.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
 }
