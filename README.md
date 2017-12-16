@@ -2,10 +2,10 @@
 ## Matching JSON expressively
 [![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]() [![Download](https://api.bintray.com/packages/qaware-oss/maven/majx/images/download.svg) ](https://bintray.com/qaware-oss/maven/majx/_latestVersion)
 
-Majx is a small test library that helps to verify that a JSON document fulfils your expectations regarding
+Majx is a test library for the JVM written in Kotlin that verifies that a JSON document fulfils your expectations regarding
 structure and values.
 
-You provide a two JSON documents
+You provide two JSON documents
 
 1. The **pattern** JSON that describes your expectations
 2. The **actual** JSON that should be tested
@@ -16,112 +16,12 @@ values, that are treated in a certain way.
 
 # Usage
 
-## Dependencies
-
-The JARs are available via Maven Central and JCenter. 
-
-If you are using Maven to build your project, add the following to the `pom.xml` file.
-
-:warning: To use the current version you have to manually include the `kotlin-stdlib` in your dependencies. 
-See https://github.com/qaware/majx/issues/18 for details.
-
-```XML
-<!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
-<dependency>
-    <groupId>de.qaware.majx</groupId>
-    <artifactId>majx</artifactId>
-    <version>0.9.1</version>
-    <scope>test</scope>
-</dependency>
-```
-
-In case you are using Gradle to build your project, add the following to the `build.gradle` file:
-
-```groovy
-repositories {
-    jcenter()
-    mavenCentral()
-}
-
-dependencies {
-    // https://mvnrepository.com/artifact/de.qaware.majx/majx
-    testCompile group: 'de.qaware.majx', name: 'majx', version: '0.9.1'
-}
-```
-
-## Matching attributes and values exactly
-
-Lets start with the basics
-
-This **pattern**
-```
-{
-  "expected" : "to be here"
-}
-```
-
-matches this **actual** JSON
-
-```
-{
-  "expected" : "to be here"
-}
-```
-
-... but does not match this one
-
-```
-{}
-```
-
-The test
-
-```
-Majx.assertJsonMatches(pattern, actual);
-```
-results in an ``AssertionError``
-```
-Error at location $: Size of object properties does not match.
-Expected properties:       expected
-Actual properties:         (empty)
-Not matched properties:    expected
-Expected: <1>
-     but: was <0>.
-
---------------------------------------------------------------------------------------------
-Actual JSON
---------------------------------------------------------------------------------------------
-{ }
-
---------------------------------------------------------------------------------------------
-Pattern
---------------------------------------------------------------------------------------------
-{
-  "expected" : "to be here"
-}
-```
-
-This **actual** JSON does not match either because it has unexpected properties that are not declared
-in the pattern:
-
-```JSON
-{
-  "expected" : "to be here",
-  "i" : "am unexpected"
-}
-```
-Error:
-```
-Error at location $: Size of object properties does not match.
-Expected properties:       expected
-Actual properties:         expected, i
-Not matched properties:    i
-Expected: <1>
-     but: was <2>.
-     
-... (actual and pattern JSONs omitted)
-```
 ## Full example
+
+The following example shows all majx features. For details on individual features
+refer to the [wiki](https://github.com/qaware/majx/wiki).
+
+### Writing the Pattern
 
 Full example **pattern**:
 
@@ -141,7 +41,7 @@ Full example **pattern**:
 }                               (10)
 ```
 
-An **actual JSON document** that you match with this pattern ...
+This **pattern** states that an **actual** JSON ...
 
 1. must have a property ``$.brand`` of type string with value ``"BMW"``.
 2. must have a property ``$.color`` of any type with any value.
@@ -158,9 +58,9 @@ determined at runtime by looking up the mustache expression ``{{baseUrl}}`` in a
 10. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above)
 because it has no wildcard-property (``"..." : "..."``) at the end.
 
-## Matching an actual JSON document
+### Matching an actual JSON document
 
-That means this **actual JSON document** will pass the validation given
+That means this **actual** JSON will pass the validation given
 that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
@@ -179,7 +79,7 @@ that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 }
 ```
 
-... but this **actual JSON document** will cause a validation error given
+... but matching this **actual** JSON will cause an `AssertionError` given
  that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 
 ```
@@ -196,7 +96,7 @@ that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
 }                                       (5)
 ```
 
-Why? Because the latter **actual JSON document** ...
+Why? Because the latter **actual** JSON ...
 
 1. does not have a property ``$.brand`` of type string with value``"BMW"``. Instead it's value is ``"VW"``.
 2. does not have a property ``$.engine.cylinders`` of type number with value ``4``. Instead it is of type
@@ -207,7 +107,7 @@ Instead, it's value is ``"head up display"``.
 is ``"https://other.com/cars/12"``.
 5. does not have a property ``$.color`` with any value.
 
-## Usage
+### Test Code
 
 ```
 // Obtain actual and pattern JSONs as strings or jackson JsonNodes.
@@ -250,17 +150,46 @@ Mustache Scope
 --------------------------------------------------------------------------------------------
 baseUrl = https://base.com
 ```
+## Dependencies
 
-## Related Work
+The JARs are available via Maven Central and JCenter. 
+
+If you are using Maven to build your project, add the following to the `pom.xml` file.
+
+```XML
+<!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
+<dependency>
+    <groupId>de.qaware.majx</groupId>
+    <artifactId>majx</artifactId>
+    <version>1.0.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
+In case you are using Gradle to build your project, add the following to the `build.gradle` file:
+
+```groovy
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/de.qaware.majx/majx
+    testCompile group: 'de.qaware.majx', name: 'majx', version: '1.0.0'
+}
+```
+
+# Related Work
 
 * Hamcrest matchers for JSON documents, https://github.com/hertzsprung/hamcrest-json
 * Write JSON unit tests in less code, https://github.com/skyscreamer/JSONassert
 * Compare JSON in your Unit Tests, https://github.com/lukas-krecan/JsonUnit
 
-## Maintainer
+# Maintainer
 
 Claudius Boettcher, <claudius.boettcher@qaware.de>.
 
-## License
+# License
 
 This software is provided under the MIT open source license, read the `LICENSE` file for details.

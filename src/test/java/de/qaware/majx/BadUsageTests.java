@@ -37,7 +37,7 @@ public class BadUsageTests {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("parameter pattern");
         //noinspection ConstantConditions
-        Majx.assertJsonMatches(null, "{}");
+        Majx.assertJsonMatches((String) null, "{}");
     }
 
     @Test
@@ -45,6 +45,6 @@ public class BadUsageTests {
         exception.expect(IllegalArgumentException.class);
         exception.expectMessage("parameter actual");
         //noinspection ConstantConditions
-        Majx.assertJsonMatches("{}", null);
+        Majx.assertJsonMatches("{}", (String) null);
     }
 }

@@ -39,6 +39,39 @@ fun assertJsonMatches(pattern: String, actual: String) =
         assertJsonMatches(null, pattern, actual)
 
 /**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode].
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON node.
+ * @param actual The actual JSON node to match against the pattern.
+ */
+fun assertJsonMatches(pattern: JsonNode, actual: JsonNode) =
+        assertJsonMatches(null, pattern, actual, null)
+
+/**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern string.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON node to match against the pattern.
+ */
+fun assertJsonMatches(pattern: String, actual: JsonNode) =
+        assertJsonMatches(null, parseAndValidate(pattern, "pattern"), actual, null)
+
+/**
+ * Asserts that the given actual JSON string matches the given JSON pattern [JsonNode].
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON node to match against the pattern.
+ */
+fun assertJsonMatches(pattern: JsonNode, actual: String) =
+        assertJsonMatches(null, pattern, parseAndValidate(actual, "actual"), null)
+
+/**
  * Asserts that the given actual JSON matches the given JSON pattern by evaluating mustache expressions
  * with the given mustache scope.
  *
@@ -52,6 +85,22 @@ fun assertJsonMatches(pattern: String, actual: String) =
  * @see <a href="https://github.com/qaware/majx">README</a> for details.
  */
 fun assertJsonMatches(pattern: String, actual: String, mustacheScope: Any? = null) =
+        assertJsonMatches(null, pattern, actual, mustacheScope)
+
+/**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode]
+ * by evaluating mustache expressions with the given mustache scope.
+ *
+ * The mustache scope may be a <code>Map<String,String></code> or a POJO.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON node.
+ * @param actual The actual JSON node to match against the pattern.
+ * @param mustacheScope A Map<String,String> or a POJO containing mustache expressions.
+ * @see <a href="https://github.com/qaware/majx">README</a> for details.
+ */
+fun assertJsonMatches(pattern: JsonNode, actual: JsonNode, mustacheScope: Any? = null) =
         assertJsonMatches(null, pattern, actual, mustacheScope)
 
 /**
@@ -76,7 +125,7 @@ fun assertJsonMatches(reason: String?, pattern: String, actual: String, mustache
 }
 
 /**
- * Asserts that the given actual JSON node matches the given JSON pattern node by evaluating
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode] by evaluating
  * mustache expressions with the given mustache scope.
  *
  * The mustache scope may be a <code>Map<String,String></code> or a POJO.
@@ -84,12 +133,12 @@ fun assertJsonMatches(reason: String?, pattern: String, actual: String, mustache
  * If the JSON does not match, an [AssertionError] is thrown.
  *
  * @param reason A custom message to prepend to the generated majx error.
- * @param pattern The pattern JSON string.
- * @param actual The actual JSON string to match against the pattern.
+ * @param pattern The pattern JSON node.
+ * @param actual The actual JSON node to match against the pattern.
  * @param mustacheScope A Map<String,String> or a POJO containing mustache expressions.
  * @see <a href="https://github.com/qaware/majx">README</a> for details.
  */
-private fun assertJsonMatches(reason: String?, pattern: JsonNode, actual: JsonNode, mustacheScope: Any?) =
+fun assertJsonMatches(reason: String?, pattern: JsonNode, actual: JsonNode, mustacheScope: Any?) =
         JsonMatcher(mustacheScope).assertMatches(reason, pattern, actual)
 
 /**
