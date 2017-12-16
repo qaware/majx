@@ -23,7 +23,9 @@
  */
 package de.qaware.majx;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import static de.qaware.majx.TestSupportKt.readFile;
 
@@ -31,6 +33,9 @@ import static de.qaware.majx.TestSupportKt.readFile;
  * Tests that the examples in README and wiki actually work.
  */
 public class DocsTests {
+
+    @Rule
+    public ExpectedException exception = ExpectedException.none();
 
     @Test
     public void exactMatchSuccess() throws Exception {
@@ -50,6 +55,31 @@ public class DocsTests {
     public void exactMatchError() throws Exception {
         String actual = readFile("docs/exact/actual.error.json");
         String pattern = readFile("docs/exact/pattern.json");
+        exception.expect(AssertionError.class);
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    @Test
+    public void arrayWildcardSuccess() throws Exception {
+        String actual = readFile("docs/wildcard/array/actual.json");
+        String pattern = readFile("docs/wildcard/array/pattern.with-wildcard.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    @Test
+    public void arrayWildcardInvalidStart() throws Exception {
+        String actual = readFile("docs/wildcard/array/actual.invalid-start.json");
+        String pattern = readFile("docs/wildcard/array/pattern.with-wildcard.json");
+        exception.expect(AssertionError.class);
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+
+    @Test
+    public void arrayWildcardExact() throws Exception {
+        String actual = readFile("docs/wildcard/array/actual.json");
+        String pattern = readFile("docs/wildcard/array/pattern.exact.json");
+        exception.expect(AssertionError.class);
         Majx.assertJsonMatches(pattern, actual);
     }
 }
