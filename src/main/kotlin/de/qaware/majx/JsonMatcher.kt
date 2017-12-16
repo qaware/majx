@@ -249,7 +249,7 @@ class JsonMatcher(private val mustacheScope: Any?) {
             if (WILDCARD == expectedFieldName && isWildcard(pattern.get(WILDCARD))) {
                 continue
             }
-            assertThat<JsonNode>("${locationInfo} Expected field name '$expectedFieldName' not found.",
+            assertThat<JsonNode>("$locationInfo Expected field name '$expectedFieldName' not found.",
                     actual.get(expectedFieldName), notNullValue())
             validate(pattern.get(expectedFieldName), actual.get(expectedFieldName),
                     "$attributeName.$expectedFieldName")
