@@ -2,7 +2,7 @@
 ## Matching JSON expressively
 [![Build Status](https://travis-ci.org/qaware/majx.svg?branch=master)](https://travis-ci.org/qaware/majx) [![Coverage Status](https://coveralls.io/repos/github/qaware/majx/badge.svg?branch=master)](https://coveralls.io/github/qaware/majx?branch=master) [![License](http://img.shields.io/badge/license-MIT-green.svg?style=flat)]() [![Download](https://api.bintray.com/packages/qaware-oss/maven/majx/images/download.svg) ](https://bintray.com/qaware-oss/maven/majx/_latestVersion)
 
-Majx is a test library for the JVM written in Kotlin that helps to verify that a JSON document fulfils your expectations regarding
+Majx is a test library for the JVM written in Kotlin that verifies that a JSON document fulfils your expectations regarding
 structure and values.
 
 You provide two JSON documents
@@ -15,36 +15,6 @@ and concise way within the **pattern**. To achieve this, the **pattern** may con
 values, that are treated in a certain way.
 
 # Usage
-
-## Dependencies
-
-The JARs are available via Maven Central and JCenter. 
-
-If you are using Maven to build your project, add the following to the `pom.xml` file.
-
-```XML
-<!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
-<dependency>
-    <groupId>de.qaware.majx</groupId>
-    <artifactId>majx</artifactId>
-    <version>1.0.0</version>
-    <scope>test</scope>
-</dependency>
-```
-
-In case you are using Gradle to build your project, add the following to the `build.gradle` file:
-
-```groovy
-repositories {
-    jcenter()
-    mavenCentral()
-}
-
-dependencies {
-    // https://mvnrepository.com/artifact/de.qaware.majx/majx
-    testCompile group: 'de.qaware.majx', name: 'majx', version: '1.0.0'
-}
-```
 
 ## Full example
 
@@ -179,6 +149,35 @@ Pattern
 Mustache Scope
 --------------------------------------------------------------------------------------------
 baseUrl = https://base.com
+```
+## Dependencies
+
+The JARs are available via Maven Central and JCenter. 
+
+If you are using Maven to build your project, add the following to the `pom.xml` file.
+
+```XML
+<!-- https://mvnrepository.com/artifact/de.qaware.majx/majx -->
+<dependency>
+    <groupId>de.qaware.majx</groupId>
+    <artifactId>majx</artifactId>
+    <version>1.0.0</version>
+    <scope>test</scope>
+</dependency>
+```
+
+In case you are using Gradle to build your project, add the following to the `build.gradle` file:
+
+```groovy
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+    // https://mvnrepository.com/artifact/de.qaware.majx/majx
+    testCompile group: 'de.qaware.majx', name: 'majx', version: '1.0.0'
+}
 ```
 
 # Related Work
