@@ -117,4 +117,27 @@ public class DocsTests {
         exception.expect(AssertionError.class);
         Majx.assertJsonMatches(pattern, actual);
     }
+
+    // Ignoring values
+
+    @Test
+    public void ignoringValuesSuccess() throws Exception {
+        String actual = readFile("docs/ignoringValues/actual.json");
+        String pattern = readFile("docs/ignoringValues/pattern.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    @Test
+    public void ignoringValuesObjectValueSuccess() throws Exception {
+        String actual = readFile("docs/ignoringValues/actual.object-value.json");
+        String pattern = readFile("docs/ignoringValues/pattern.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    @Test
+    public void ignoringValuesNullValueSuccess() throws Exception {
+        String actual = readFile("docs/ignoringValues/actual.null-value.json");
+        String pattern = readFile("docs/ignoringValues/pattern.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
 }
