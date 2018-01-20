@@ -40,6 +40,16 @@ public class DocsTests {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    // Basic
+
+    @Test
+    public void basicUsage() throws Exception {
+        String actual = "{ \"greeting\" : \"Hello, World!\", \"id\" : 12 }";
+        String pattern = "{ \"greeting\" : \"Hello, World!\", \"id\" : \"...\" }";
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+
     // Exact match
 
     @Test
