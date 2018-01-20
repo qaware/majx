@@ -69,7 +69,7 @@ public class DocsTests {
     @Test
     public void arrayWildcardAnyFeaturesSuccess() throws Exception {
         String actual = readFile("docs/wildcard/array/actual.json");
-        String pattern = readFile("docs/wildcard/array/pattern.any-features.json");
+        String pattern = readFile("docs/wildcard/array/pattern.any-entries.json");
         Majx.assertJsonMatches(pattern, actual);
     }
 
