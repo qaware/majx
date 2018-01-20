@@ -16,7 +16,7 @@ values, that are treated in a certain way.
 
 # Usage
 
-Obtain a reference to the **actual** and **pattern** JSONs as `String` or jackson's `JsonNode`
+Obtain a reference to the **actual** and **pattern** JSONs as `String` or jackson's [`JsonNode`](https://fasterxml.github.io/jackson-databind/javadoc/2.8/com/fasterxml/jackson/databind/JsonNode.html)
 and pass them to one of the static methods that the class `Majx` provides.
 
 ```
@@ -27,7 +27,7 @@ Majx.assertJsonMatches(pattern, actual);
 ```
 
 This test would succeed for any value for the `"id"` property inside the **actual** JSON
-since its expected value is the `"..."`-wildcard in the **pattern** 
+since its expected value is the magic `"..."`-wildcard value in the **pattern** 
 (See [Ignoring values](https://github.com/qaware/majx/wiki/Ignoring-values).
 
 Details on all available features can be found in the wiki:
