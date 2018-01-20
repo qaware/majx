@@ -28,7 +28,7 @@ Majx.assertJsonMatches(pattern, actual);
 
 This test would succeed for any value for the `"id"` property inside the **actual** JSON
 since its expected value is the magic `"..."`-wildcard value in the **pattern** 
-(See [Ignoring values](https://github.com/qaware/majx/wiki/Ignoring-values).
+(See [Ignoring values](https://github.com/qaware/majx/wiki/Ignoring-values)).
 
 Details on all available features can be found in the wiki:
 
