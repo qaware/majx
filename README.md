@@ -16,140 +16,28 @@ values, that are treated in a certain way.
 
 # Usage
 
-## Full example
-
-The following example shows all majx features. For details on individual features
-refer to the [wiki](https://github.com/qaware/majx/wiki).
-
-### Writing the Pattern
-
-Full example **pattern**:
+Obtain a reference to the **actual** and **pattern** JSONs as `String` or jackson's `JsonNode`
+and pass them to one of the static methods that the class `Majx` provides.
 
 ```
-{
-  "brand" : "BMW",              (1)
-  "color" : "...",              (2)
-  "engine" : {                  (3)
-    "cylinders" : 4,            (4)
-    "..." : "..."               (5)
-  },
-  "features" : [                (6)
-    "air con",                  (7)
-    "..."                       (8)
-  ],
-  "url" : "{{baseUrl}}/cars/12" (9)
-}                               (10)
+String actual  = "{ \"greeting\" : \"Hello, World!\", \"id\" : 12 }";
+String pattern = "{ \"greeting\" : \"Hello, World!\", \"id\" : \"...\" }";
+
+Majx.assertJsonMatches(pattern, actual);
 ```
 
-This **pattern** states that an **actual** JSON ...
+This test would succeed for any value for the `"id"` property inside the **actual** JSON
+since its expected value is the `"..."`-wildcard in the **pattern** 
+(See [Ignoring values](https://github.com/qaware/majx/wiki/Ignoring-values).
 
-1. must have a property ``$.brand`` of type string with value ``"BMW"``.
-2. must have a property ``$.color`` of any type with any value.
-3. must have a property ``$.engine`` of type object.
-4. must have a property ``$.engine.cylinders`` of type number with value ``4``
-5. the object at position ``$.engine`` may have zero or more other properties, which we don't care about. The wildcard-property (``"..." : "..."``) must be the last entry of an object.
-6. must have a property ``$.features`` of type array.
-7. must have a property ``$.features[0]`` of type string with value ``"air con"``.
-8. the array at position ``$.features`` may have zero or more other properties, which we don't care about. The wildcard element (``"..."``) must be the last entry of any array.
-9. must have a property ``$.url`` of type string. The expected value is
-determined at runtime by looking up the mustache expression ``{{baseUrl}}`` in a given mustache scope. The
- mustache scope can be a ``Map<String,String>`` or a POJO. If no mustache expressions are used in the pattern,
- no mustache scope must be provided.
-10. Note: The root object (``$``) may not have additional properties (as opposed to ``$.engine``, see above)
-because it has no wildcard-property (``"..." : "..."``) at the end.
+Details on all available features can be found in the wiki:
 
-### Matching an actual JSON document
+* [Matching properties and values exactly](https://github.com/qaware/majx/wiki/Matching-properties-and-values-exactly)
+* [Partial object matching](https://github.com/qaware/majx/wiki/Partial-object-matching)
+* [Partial array matching](https://github.com/qaware/majx/wiki/Partial-array-matching)
+* [Ignoring values](https://github.com/qaware/majx/wiki/Ignoring-values)
+* [Programmatic expectations](https://github.com/qaware/majx/wiki/Programmatic-expectations) through mustache expressions
 
-That means this **actual** JSON will pass the validation given
-that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
-
-```
-{
-  "brand" : "BMW",
-  "color" : "red",
-  "engine" : {
-    "cylinders" : 4
-  },
-  "features" : [
-    "air con",
-    "head up display",
-    "brake assist"
-  ],
-  "url" : "https://base.com/cars/12"
-}
-```
-
-... but matching this **actual** JSON will cause an `AssertionError` given
- that you provide a mapping ``baseUrl=https://base.com`` in the mustache scope:
-
-```
-{
-  "brand" : "VW",                       (1)
-  "engine" : {
-    "cylinders" : "4"                   (2)
-  },
-  "features" : [
-    "head up display",
-    "air con"                           (3)
-  ],
-  "url" : "https://other.com/cars/12"   (4)
-}                                       (5)
-```
-
-Why? Because the latter **actual** JSON ...
-
-1. does not have a property ``$.brand`` of type string with value``"BMW"``. Instead it's value is ``"VW"``.
-2. does not have a property ``$.engine.cylinders`` of type number with value ``4``. Instead it is of type
-string and has value ``"4"``.
-3. does not have a property ``$.features[0]`` of type string with value ``"air con"``.
-Instead, it's value is ``"head up display"``.
-4. does not have a property ``$.url`` with value ``"https://base.com/cars/12"``. Instead it's value
-is ``"https://other.com/cars/12"``.
-5. does not have a property ``$.color`` with any value.
-
-### Test Code
-
-```
-// Obtain actual and pattern JSONs as strings or jackson JsonNodes.
-String actual = ...;
-String pattern = readResource("path/to/my/pattern.json");
-
-// Create a mustache scope (if pattern contains mustache expressions).
-Map<String,String> mustacheScope = ImmutableMap.<String, String>builder()
-    .put("baseUrl", "https://base.com")
-    .build()
-
-// Validate
-Majx.assertJsonMatches(pattern, actual, mustacheScope);
-```
-
-If the actual JSON does not match the pattern the error message might look like this:
-
-```
-Error at location $.url: Value does not match. Pattern was evaluated as mustache expression.
-Original pattern: {{baseUrl}}/path/to/file
-Expected: is "https://base.com/path/to/file"
-     but: was "https://other.com/path/to/file".
-
---------------------------------------------------------------------------------------------
-Actual JSON
---------------------------------------------------------------------------------------------
-{
-  "url" : "https://other.com/path/to/file"
-}
-
---------------------------------------------------------------------------------------------
-Pattern
---------------------------------------------------------------------------------------------
-{
-  "url" : "{{baseUrl}}/path/to/file"
-}
-
---------------------------------------------------------------------------------------------
-Mustache Scope
---------------------------------------------------------------------------------------------
-baseUrl = https://base.com
-```
 ## Dependencies
 
 The JARs are available via Maven Central and JCenter. 
