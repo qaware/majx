@@ -37,6 +37,8 @@ public class DocsTests {
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
+    // Exact match
+
     @Test
     public void exactMatchSuccess() throws Exception {
         String actual = readFile("docs/exact/actual.json");
@@ -59,6 +61,8 @@ public class DocsTests {
         Majx.assertJsonMatches(pattern, actual);
     }
 
+    // Array
+
     @Test
     public void arrayWildcardSuccess() throws Exception {
         String actual = readFile("docs/wildcard/array/actual.json");
@@ -67,7 +71,7 @@ public class DocsTests {
     }
 
     @Test
-    public void arrayWildcardAnyFeaturesSuccess() throws Exception {
+    public void arrayWildcardAnyEntriesSuccess() throws Exception {
         String actual = readFile("docs/wildcard/array/actual.json");
         String pattern = readFile("docs/wildcard/array/pattern.any-entries.json");
         Majx.assertJsonMatches(pattern, actual);
@@ -86,6 +90,30 @@ public class DocsTests {
     public void arrayWildcardExact() throws Exception {
         String actual = readFile("docs/wildcard/array/actual.json");
         String pattern = readFile("docs/wildcard/array/pattern.exact.json");
+        exception.expect(AssertionError.class);
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    // Object
+
+    @Test
+    public void objectWildcardSuccess() throws Exception {
+        String actual = readFile("docs/wildcard/object/actual.json");
+        String pattern = readFile("docs/wildcard/object/pattern.with-wildcard.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    @Test
+    public void objectWildcardAnyEntriesSuccess() throws Exception {
+        String actual = readFile("docs/wildcard/object/actual.json");
+        String pattern = readFile("docs/wildcard/object/pattern.any-entries.json");
+        Majx.assertJsonMatches(pattern, actual);
+    }
+
+    @Test
+    public void objectWildcardExact() throws Exception {
+        String actual = readFile("docs/wildcard/object/actual.json");
+        String pattern = readFile("docs/wildcard/object/pattern.exact.json");
         exception.expect(AssertionError.class);
         Majx.assertJsonMatches(pattern, actual);
     }
