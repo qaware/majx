@@ -1,15 +1,1 @@
-{
-  "id": 12,
-  "url": "https://my-cardealer.com/cars/12",
-  "lastUpdated": "2017-12-16T13:08:44+00:00",
-  "brand": "BMW",
-  "color": "red",
-  "engine": {
-    "cylinders": 4,
-    "fuelType": "gas"
-  },
-  "features": [
-    "air con",
-    "satnav"
-  ]
-}
+["red", "green", "blue"]
