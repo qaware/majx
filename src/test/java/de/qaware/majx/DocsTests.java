@@ -27,6 +27,9 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import static de.qaware.majx.TestSupportKt.readFile;
 
 /**
@@ -139,5 +142,53 @@ public class DocsTests {
         String actual = readFile("docs/ignoringValues/actual.null-value.json");
         String pattern = readFile("docs/ignoringValues/pattern.json");
         Majx.assertJsonMatches(pattern, actual);
+    }
+
+    // Programmatic expectations
+
+    @Test
+    public void mustachePlaceholderMissingFail() throws Exception {
+        String actual = readFile("docs/mustache/actual.json");
+        String pattern = readFile("docs/mustache/pattern.json");
+        Map<String, String> mustacheScope = new HashMap<>();
+        mustacheScope.put("protocol", "https");
+        exception.expect(AssertionError.class);
+        Majx.assertJsonMatches(pattern, actual, mustacheScope);
+    }
+
+    @Test
+    public void mustacheMapSuccess() throws Exception {
+        String actual = readFile("docs/mustache/actual.json");
+        String pattern = readFile("docs/mustache/pattern.json");
+        Map<String, String> mustacheScope = new HashMap<>();
+        mustacheScope.put("protocol", "https");
+        mustacheScope.put("host", "my-cardealer.com");
+        Majx.assertJsonMatches(pattern, actual, mustacheScope);
+    }
+
+    @Test
+    public void mustachePojoSuccess() throws Exception {
+        String actual = readFile("docs/mustache/actual.json");
+        String pattern = readFile("docs/mustache/pattern.json");
+        MustacheScopePojo mustacheScope = new MustacheScopePojo("https", "my-cardealer.com");
+        Majx.assertJsonMatches(pattern, actual, mustacheScope);
+    }
+
+    private static class MustacheScopePojo {
+        private final String protocol;
+        private final String host;
+
+        MustacheScopePojo(String protocol, String host) {
+            this.protocol = protocol;
+            this.host = host;
+        }
+
+        public String getProtocol() {
+            return protocol;
+        }
+
+        public String getHost() {
+            return host;
+        }
     }
 }
