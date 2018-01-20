@@ -7,8 +7,8 @@ structure and values.
 
 You provide two JSON documents
 
-1. The **pattern** JSON that describes your expectations
-2. The **actual** JSON that should be tested
+1. The **actual** JSON that should be tested
+2. The **pattern** JSON that describes your expectations
 
 We try to let you express almost all of your expectations in a flexible, readable
 and concise way within the **pattern**. To achieve this, the **pattern** may contain magic
