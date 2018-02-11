@@ -1,6 +1,7 @@
-Error at location $[0]: Element does not match
-Expected: is "1"
-     but: was "3".
+JSON validation failed.
+
+    Expected $[0] to be 1 but it was 3
+    Expected $[1] to be 3 but it was 1
 
 --------------------------------------------------------------------------------------------
 Actual JSON

@@ -1,6 +1,8 @@
-Error at location $.url: Value does not match. Pattern was evaluated as mustache expression. Original pattern: {{baseUrl}}/path/to/file
-Expected: is "https://base.com/path/to/file"
-     but: was "https://other.com/path/to/file".
+JSON validation failed.
+
+    Expected $.url to be "https://base.com/path/to/file" but it was "https://other.com/path/to/file"
+        Pattern was evaluated as mustache expression
+        Original pattern: "{{baseUrl}}/path/to/file"
 
 --------------------------------------------------------------------------------------------
 Actual JSON
@@ -15,8 +17,3 @@ Pattern
 {
   "url" : "{{baseUrl}}/path/to/file"
 }
-
---------------------------------------------------------------------------------------------
-Mustache Scope
---------------------------------------------------------------------------------------------
-baseUrl = https://base.com

@@ -68,6 +68,18 @@ public class NotMatchedTests {
                         "notMatchedValue/typeMismatch/array/actual.json",
                         "notMatchedValue/typeMismatch/array/pattern.json",
                         "notMatchedValue/typeMismatch/array/expectedMessage.txt",
+                },
+                {
+                        "multiple properties not matched in object",
+                        "notMatchedValue/multipleNotMatched/object/actual.json",
+                        "notMatchedValue/multipleNotMatched/object/pattern.json",
+                        "notMatchedValue/multipleNotMatched/object/expectedMessage.txt",
+                },
+                {
+                        "multiple elements not matched in array",
+                        "notMatchedValue/multipleNotMatched/array/actual.json",
+                        "notMatchedValue/multipleNotMatched/array/pattern.json",
+                        "notMatchedValue/multipleNotMatched/array/expectedMessage.txt"
                 }
         });
     }

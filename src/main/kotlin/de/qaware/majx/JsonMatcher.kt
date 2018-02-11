@@ -24,9 +24,10 @@
 package de.qaware.majx
 
 import com.fasterxml.jackson.databind.JsonNode
-import com.fasterxml.jackson.databind.node.*
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.*
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.ObjectNode
+import com.fasterxml.jackson.databind.node.TextNode
+import com.fasterxml.jackson.databind.node.ValueNode
 
 /**
  * Matcher that compares an actual JSON with a pattern JSON object.
@@ -51,14 +52,6 @@ class JsonMatcher(private val mustacheScope: Any?) {
          * A wildcard can be used in patterns if the content of the actual key or value is unimportant.
          */
         private const val WILDCARD = "..."
-
-        /**
-         * Format location information string from attribute name
-         *
-         * @param attributeName Name of the attribute.
-         * @return The formatted location.
-         */
-        private fun formatLocation(attributeName: String): String = "Error at location $attributeName: "
 
         /**
          * @param node Node to check
@@ -97,6 +90,13 @@ class JsonMatcher(private val mustacheScope: Any?) {
         }
 
         /**
+         * Prints the given set handling empty sets nicely.
+         *
+         * @param s The set to print, may be empty.
+         */
+        private fun printProperties(s: Set<String>) = if (s.isNotEmpty()) s.joinToString() else "(empty)"
+
+        /**
          * Validate that array or object sizes are correct. If there is a wildcard in the pattern object this means that the
          * actual object may contain more elements than the pattern object.
          *
@@ -105,44 +105,20 @@ class JsonMatcher(private val mustacheScope: Any?) {
          * @param locationInfo Location information for error output.
          * @param <T>          Type of container to check.
          */
-        private fun <T : ContainerNode<T>> validateCorrectSize(pattern: ContainerNode<T>,
-                                                               actual: ContainerNode<T>,
-                                                               locationInfo: String) {
+        private fun validateCorrectSize(pattern: ArrayNode,
+                                        actual: ArrayNode,
+                                        locationInfo: String,
+                                        validationErrors: MutableList<ValidationError>) {
             if (containsWildcard(pattern)) {
-                // Wildcard: Number of elements must be greater or equal to the number of actually specified elements
-                val specifiedElems = pattern.size() - 1
-                val actualContainerType = if (actual.isArray()) "array" else "object"
-                assertThat<Int>("${locationInfo}Actual $actualContainerType size too small",
-                        actual.size(),
-                        greaterThanOrEqualTo<Int>(specifiedElems))
-            } else {
-                // No wildcard: number of elements must match exactly
-                val errorMsg: String
-                if (actual.isArray) {
-                    errorMsg = "${locationInfo}Sizes of arrays do not match."
-                } else if (actual.isObject) {
-                    val expectedPropertiesSet = asSet(pattern.fieldNames())
-                    val actualPropertiesSet = asSet(actual.fieldNames())
-
-                    val notMatchedSet = expectedPropertiesSet.union(actualPropertiesSet).minus(
-                            expectedPropertiesSet.intersect(actualPropertiesSet)
-                    )
-                    val notMatched = if (notMatchedSet.isNotEmpty()) notMatchedSet.joinToString() else "(empty)"
-                    val expectedProperties = if (expectedPropertiesSet.isNotEmpty())
-                        expectedPropertiesSet.joinToString() else "(empty)"
-                    val actualProperties = if (actualPropertiesSet.isNotEmpty())
-                        actualPropertiesSet.joinToString() else "(empty)"
-
-                    errorMsg = """${locationInfo}Size of object properties does not match.
-                                    |Expected properties:       $expectedProperties
-                                    |Actual properties:         $actualProperties
-                                    |Not matched properties:    $notMatched""".trimMargin()
-                } else {
-                    throw UnsupportedOperationException("Not implemented handling of subtype '${actual.javaClass.name}' " +
-                            "of type '${ContainerNode<*>::javaClass.name}'")
+                if (actual.size() < pattern.size() - 1) {
+                    // Wildcard: Number of elements must be greater or equal to the number of actually specified elements
+                    validationErrors.add(ValidationError("Expected array $locationInfo" +
+                            " to have at least ${pattern.size() - 1} entries but it has only ${actual.size()} entries"))
                 }
-
-                assertThat<Int>(errorMsg, actual.size(), equalTo<Int>(pattern.size()))
+            } else if (actual.size() != pattern.size()) {
+                // No wildcard: number of elements must match exactly
+                validationErrors.add(ValidationError("Expected array $locationInfo to " +
+                        "have exactly ${pattern.size()} entrie(s) but it has ${actual.size()} entrie(s)"))
             }
         }
     }
@@ -157,25 +133,32 @@ class JsonMatcher(private val mustacheScope: Any?) {
      * @param actual   Actual value.
      */
     fun assertMatches(reason: String?, pattern: JsonNode, actual: JsonNode) {
-        try {
-            validate(pattern, actual, "$")
-        } catch (ex: AssertionError) {
-            val actualAsText = convertToString(actual)
-            val expectedAsText = convertToString(pattern)
+        val validationErrors = mutableListOf<ValidationError>()
+        val errors = validate(pattern, actual, "$", validationErrors)
+        if (errors.isEmpty()) {
+            // No validation errors -> success.
+            return
+        }
 
-            val mustacheScopeString = if (this.mustacheScope != null) {
-                """
+        val actualAsText = convertToString(actual)
+        val expectedAsText = convertToString(pattern)
+
+        val mustacheScopeString = if (this.mustacheScope != null) {
+            """
 
                 |--------------------------------------------------------------------------------------------
                 |Mustache Scope
                 |--------------------------------------------------------------------------------------------
                 |${printMustacheScope(this.mustacheScope)}
                 """
-            } else ""
+        } else ""
 
-            val reasonOutput: String = if (reason != null) "$reason: " else ""
-            throw AssertionError("""$reasonOutput${ex.message}.
-
+        val reasonOutput: String = if (reason != null) "$reason: " else ""
+        val errorsOutput = errors.joinToString(separator = "\n    ") { validationError -> validationError.msg }
+        throw AssertionError("""${reasonOutput}JSON validation failed.
+                |
+                |    $errorsOutput
+                |
                 |--------------------------------------------------------------------------------------------
                 |Actual JSON
                 |--------------------------------------------------------------------------------------------
@@ -184,8 +167,7 @@ class JsonMatcher(private val mustacheScope: Any?) {
                 |--------------------------------------------------------------------------------------------
                 |Pattern
                 |--------------------------------------------------------------------------------------------
-                |$expectedAsText$mustacheScopeString""".trimMargin(), ex)
-        }
+                |$expectedAsText$mustacheScopeString""".trimMargin())
     }
 
     private fun printMustacheScope(mustacheScope: Any): String {
@@ -207,29 +189,52 @@ class JsonMatcher(private val mustacheScope: Any?) {
      *
      * @param pattern       Pattern object.
      * @param actual        Actual value.
-     * @param attributeName Name of currently processed attribute (absolut path from root).
+     * @param location Name of currently processed attribute (absolut path from root).
      */
-    private fun validate(pattern: JsonNode, actual: JsonNode, attributeName: String) {
+    private fun validate(pattern: JsonNode,
+                         actual: JsonNode, location: String,
+                         validationErrors: MutableList<ValidationError>): List<ValidationError> {
         if (isWildcard(pattern)) {
-            return
+            return emptyList<ValidationError>()
         }
 
-        val locationInfo = formatLocation(attributeName)
-        assertThat<JsonNodeType>(locationInfo + "Incorrect type of attribute",
-                actual.nodeType, `is`<JsonNodeType>(pattern.nodeType))
+        if (actual.nodeType != pattern.nodeType) {
+            val expectedValueDisplay = printValueNodeWithPrefix(pattern)
+            val actualValueDisplay = printValueNodeWithPrefix(actual)
+            validationErrors.add(ValidationError(("Expected $location to be " +
+                    "of type ${pattern.nodeType} ${expectedValueDisplay}but it was of type ${actual.nodeType} " +
+                    actualValueDisplay).trim()))
+            return validationErrors
+        }
 
         when {
-            pattern is ObjectNode && actual is ObjectNode -> validateObject(pattern, actual, attributeName)
-            pattern is ArrayNode && actual is ArrayNode -> validateArray(pattern, actual, attributeName)
-            pattern is TextNode && actual is TextNode -> validateString(pattern, actual, attributeName)
-            pattern is ValueNode && actual is ValueNode -> validateScalar(pattern, actual, attributeName)
+            pattern is ObjectNode && actual is ObjectNode -> validateObject(pattern, actual, location, validationErrors)
+            pattern is ArrayNode && actual is ArrayNode -> validateArray(pattern, actual, location, validationErrors)
+            pattern is TextNode && actual is TextNode -> validateString(pattern, actual, location, validationErrors)
+            pattern is ValueNode && actual is ValueNode -> validateScalar(pattern, actual, location, validationErrors)
             else -> {
-                val error = "Incompatible types in actual and expected. " +
+                throw IllegalArgumentException("Incompatible types in actual and expected. " +
                         "Type of actual: ${actual.javaClass.toString()}, " +
-                        "type of expected: ${pattern.javaClass.toString()}"
-                throw AssertionError("$locationInfo$error")
+                        "type of expected: ${pattern.javaClass.toString()}")
             }
         }
+        return validationErrors
+    }
+
+    private fun printValueNodeWithPrefix(node: JsonNode, prefix: String = "with value "): String {
+        if (!node.isValueNode) {
+            return ""
+        }
+        val textValueRaw = node.asText()
+        if (node.isTextual) {
+            val textPotentiallyShortened = if (textValueRaw.length > 30) {
+                "\"${textValueRaw.substring(0, 26)}...\" (shortened)"
+            } else "\"$textValueRaw\""
+
+            return "$prefix$textPotentiallyShortened "
+        }
+
+        return "$prefix$textValueRaw "
     }
 
     /**
@@ -237,22 +242,46 @@ class JsonMatcher(private val mustacheScope: Any?) {
      *
      * @param pattern       Pattern object.
      * @param actual        Actual value.
-     * @param attributeName Name of currently processed attribute (absolut path from root).
+     * @param location Name of currently processed attribute (absolut path from root).
      */
-    private fun validateObject(pattern: ObjectNode, actual: ObjectNode, attributeName: String) {
-        val locationInfo = formatLocation(attributeName)
-        validateCorrectSize<ObjectNode>(pattern, actual, locationInfo)
+    private fun validateObject(pattern: ObjectNode,
+                               actual: ObjectNode,
+                               location: String,
+                               validationErrors: MutableList<ValidationError>) {
 
         val expectedFieldNames = pattern.fieldNames()
         while (expectedFieldNames.hasNext()) {
             val expectedFieldName = expectedFieldNames.next()
+            val expectedValue = pattern.get(expectedFieldName)
             if (WILDCARD == expectedFieldName && isWildcard(pattern.get(WILDCARD))) {
                 continue
             }
-            assertThat<JsonNode>("$locationInfo Expected field name '$expectedFieldName' not found.",
-                    actual.get(expectedFieldName), notNullValue())
-            validate(pattern.get(expectedFieldName), actual.get(expectedFieldName),
-                    "$attributeName.$expectedFieldName")
+            val actualValue = actual.get(expectedFieldName)
+            if (actualValue == null) {
+                val expectedValueDisplay = printValueNodeWithPrefix(expectedValue)
+                validationErrors.add(ValidationError(
+                        "Expected object $location to have property " +
+                                "\"$expectedFieldName\" ${expectedValueDisplay}but it didn't"
+                ))
+                continue
+            }
+            validate(expectedValue, actualValue, "$location.$expectedFieldName", validationErrors)
+        }
+
+        // If the pattern contains a wildcard property, we ignore additional properties in the
+        // actual JSON without failing. That means we are done here.
+        if (containsWildcard(pattern)) {
+            return
+        }
+
+        val expectedProperties = asSet(pattern.fieldNames())
+        val actualProperties = asSet(actual.fieldNames())
+        val unexpectedProperties = actualProperties.minus(expectedProperties)
+
+        unexpectedProperties.forEach { unexpected: String ->
+            validationErrors.add(ValidationError(
+                    "Expected object $location to NOT have property \"$unexpected\" but it did"
+            ))
         }
     }
 
@@ -261,17 +290,29 @@ class JsonMatcher(private val mustacheScope: Any?) {
      *
      * @param pattern       Pattern object.
      * @param actual        Actual value.
-     * @param attributeName Name of currently processed attribute (absolut path from root).
+     * @param location Name of currently processed attribute (absolut path from root).
      */
-    private fun validateArray(pattern: ArrayNode, actual: ArrayNode, attributeName: String) {
-        val locationInfo = formatLocation(attributeName)
-        validateCorrectSize(pattern, actual, locationInfo)
+    private fun validateArray(pattern: ArrayNode,
+                              actual: ArrayNode,
+                              location: String,
+                              validationErrors: MutableList<ValidationError>) {
+        validateCorrectSize(pattern, actual, location, validationErrors)
 
         // If pattern contains wildcard only the elements up to the wildcard must match.
         val maxIndex = if (containsWildcard(pattern)) pattern.size() - 2 else pattern.size() - 1
         for (i in 0..maxIndex) {
-            validate(pattern.get(i), actual.get(i), "$attributeName[$i]")
+            val expectedValue = pattern.get(i)
+            if (!actual.has(i)) {
+                val expectedValueDisplay = printValueNodeWithPrefix(expectedValue, "")
+                validationErrors.add(ValidationError(
+                        "Expected $location[$i] to be ${expectedValueDisplay}but no entry exists at this index"
+                ))
+                continue
+            }
+            validate(expectedValue, actual.get(i), "$location[$i]", validationErrors)
         }
+
+
     }
 
     /**
@@ -279,24 +320,32 @@ class JsonMatcher(private val mustacheScope: Any?) {
      *
      * @param pattern       Pattern object.
      * @param actual        Actual value.
-     * @param attributeName Name of currently processed attribute (absolut path from root).
+     * @param location Name of currently processed attribute (absolut path from root).
      */
-    private fun validateString(pattern: TextNode, actual: TextNode, attributeName: String) {
-        val locationInfo = formatLocation(attributeName)
+    private fun validateString(pattern: TextNode,
+                               actual: TextNode,
+                               location: String,
+                               validationErrors: MutableList<ValidationError>) {
         val patternText = pattern.textValue()
-        MustacheMatcher.assertEqual(locationInfo + "Value does not match", patternText, actual.textValue(),
-                mustacheScope)
+        MustacheMatcher.validate(patternText, actual.textValue(),
+                mustacheScope, location, validationErrors)
     }
 
     /**
-     * Recursively validate that the actual value matches the pattern object (potentially with wildcards).
+     * Recursively validate that the actual value matches the pattern value.
      *
      * @param pattern       Pattern object.
      * @param actual        Actual value.
-     * @param attributeName Name of curretly processed attribute (absolut path from root).
+     * @param location Name of currently processed attribute (absolute path from root).
+     * @param validationErrors List of validation errors to add to.
      */
-    private fun validateScalar(pattern: ValueNode, actual: ValueNode, attributeName: String) {
-        val locationInfo = formatLocation(attributeName)
-        assertThat<String>(locationInfo + "Element does not match", actual.asText(), `is`<String>(pattern.asText()))
+    private fun validateScalar(pattern: ValueNode,
+                               actual: ValueNode,
+                               location: String,
+                               validationErrors: MutableList<ValidationError>) {
+        if (actual.asText() != pattern.asText()) {
+            validationErrors.add(
+                    ValidationError("Expected $location to be ${pattern.asText()} but it was ${actual.asText()}"))
+        }
     }
 }

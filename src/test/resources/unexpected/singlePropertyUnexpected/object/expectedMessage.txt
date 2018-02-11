@@ -1,9 +1,6 @@
-Error at location $: Size of object properties does not match.
-Expected properties:       (empty)
-Actual properties:         i
-Not matched properties:    i
-Expected: <0>
-     but: was <1>.
+JSON validation failed.
+
+    Expected object $ to NOT have property "i" but it did
 
 --------------------------------------------------------------------------------------------
 Actual JSON

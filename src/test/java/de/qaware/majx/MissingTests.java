@@ -52,7 +52,7 @@ public class MissingTests {
                         "missing/singleMissingProperty/object/expectedMessage.txt"
                 },
                 {
-                        "single property missing in array",
+                        "single element missing in array",
                         "missing/singleMissingProperty/array/actual.json",
                         "missing/singleMissingProperty/array/pattern.json",
                         "missing/singleMissingProperty/array/expectedMessage.txt"

@@ -1,9 +1,8 @@
-Error at location $: Size of object properties does not match.
-Expected properties:       some, that, really, number
-Actual properties:         oh, some, that, really, number, too, much
-Not matched properties:    oh, too, much
-Expected: <4>
-     but: was <7>.
+JSON validation failed.
+
+    Expected object $ to NOT have property "oh" but it did
+    Expected object $ to NOT have property "too" but it did
+    Expected object $ to NOT have property "much" but it did
 
 --------------------------------------------------------------------------------------------
 Actual JSON

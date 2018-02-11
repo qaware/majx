@@ -24,8 +24,6 @@
 package de.qaware.majx
 
 import com.github.mustachejava.DefaultMustacheFactory
-import org.hamcrest.MatcherAssert.assertThat
-import org.hamcrest.Matchers.`is`
 import java.io.StringReader
 import java.io.StringWriter
 
@@ -62,19 +60,32 @@ object MustacheMatcher {
     /**
      * Assert that the actual value is equal to the pattern after the pattern is evaluated as a mustache expression.
 
-     * @param error         Error for assertion (if the actual values does not match the pattern)
      * @param pattern       Pattern that may be a mustache expression
      * @param actual        Actual value
      * @param mustacheScope Scope for evaluation. May be null to deactivate mustache evaluation.
+     * @param location The location info (absolute path from root).
+     * @param validationErrors List of validation errors to add to.
      */
-    fun assertEqual(error: String, pattern: String, actual: String, mustacheScope: Any?) {
+    fun validate(pattern: String,
+                 actual: String,
+                 mustacheScope: Any?,
+                 location: String,
+                 validationErrors: MutableList<ValidationError>) {
         if (mustacheScope != null && potentiallyMustache(pattern)) {
             val computedPattern = evaluateMustache(pattern, mustacheScope)
-            val errorComplete = error + ". Pattern was evaluated as mustache expression. " +
-                    "Original pattern: " + pattern
-            assertThat(errorComplete, actual, `is`(computedPattern))
-        } else {
-            assertThat(error, actual, `is`(pattern))
+            if (actual != computedPattern) {
+                validationErrors.add(
+                        ValidationError(
+                                """Expected $location to be "$computedPattern" but it was "$actual"
+                                  |        Pattern was evaluated as mustache expression
+                                  |        Original pattern: "$pattern"""".trimMargin()
+                        ))
+            }
+        } else if (actual != pattern) { // No mustache expression -> normal equals validation
+            validationErrors.add(
+                    ValidationError(
+                            "Expected $location to be \"$pattern\" but it was \"$actual\""
+                    ))
         }
     }
 

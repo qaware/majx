@@ -1,6 +1,6 @@
-Error at location $: Actual object size too small
-Expected: a value equal to or greater than <3>
-     but: <2> was less than <3>.
+JSON validation failed.
+
+    Expected object $ to have property "key3" with value 1 but it didn't
 
 --------------------------------------------------------------------------------------------
 Actual JSON

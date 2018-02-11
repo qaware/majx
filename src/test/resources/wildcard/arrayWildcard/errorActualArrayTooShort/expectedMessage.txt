@@ -1,6 +1,7 @@
-Error at location $: Actual array size too small
-Expected: a value equal to or greater than <3>
-     but: <2> was less than <3>.
+JSON validation failed.
+
+    Expected array $ to have at least 3 entries but it has only 2 entries
+    Expected $[2] to be 1 but no entry exists at this index
 
 --------------------------------------------------------------------------------------------
 Actual JSON

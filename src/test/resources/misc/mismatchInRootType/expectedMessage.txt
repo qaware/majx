@@ -1,6 +1,6 @@
-Error at location $: Incorrect type of attribute
-Expected: is <OBJECT>
-     but: was <ARRAY>.
+JSON validation failed.
+
+    Expected $ to be of type OBJECT but it was of type ARRAY
 
 --------------------------------------------------------------------------------------------
 Actual JSON

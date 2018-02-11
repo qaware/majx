@@ -1,6 +1,6 @@
-Error at location $[1]: Value does not match
-Expected: is "bar"
-     but: was "batory".
+JSON validation failed.
+
+    Expected $[1] to be "bar" but it was "batory"
 
 --------------------------------------------------------------------------------------------
 Actual JSON

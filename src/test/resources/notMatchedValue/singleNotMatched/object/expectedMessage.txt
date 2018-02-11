@@ -1,6 +1,6 @@
-Error at location $.foo: Value does not match
-Expected: is "bar"
-     but: was "batory".
+JSON validation failed.
+
+    Expected $.foo to be "bar" but it was "batory"
 
 --------------------------------------------------------------------------------------------
 Actual JSON

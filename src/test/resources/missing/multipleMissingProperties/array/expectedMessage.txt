@@ -1,6 +1,10 @@
-Error at location $: Sizes of arrays do not match.
-Expected: <4>
-     but: was <1>.
+JSON validation failed.
+
+    Expected array $ to have exactly 4 entrie(s) but it has 1 entrie(s)
+    Expected $[0] to be "expected" but it was "here"
+    Expected $[1] to be "to" but no entry exists at this index
+    Expected $[2] to be "be" but no entry exists at this index
+    Expected $[3] to be "here" but no entry exists at this index
 
 --------------------------------------------------------------------------------------------
 Actual JSON

@@ -1,13 +1,20 @@
 JSON validation failed.
 
-    Expected array $ to have exactly 2 entrie(s) but it has 5 entrie(s)
+    Expected $.foo to be "expect bar" but it was "batory"
+    Expected $.buzz to be "expect bazz" but it was "bar"
 
 --------------------------------------------------------------------------------------------
 Actual JSON
 --------------------------------------------------------------------------------------------
-[ 1, 2, 3, 4, 5 ]
+{
+  "foo" : "batory",
+  "buzz" : "bar"
+}
 
 --------------------------------------------------------------------------------------------
 Pattern
 --------------------------------------------------------------------------------------------
-[ 1, 2 ]
+{
+  "foo" : "expect bar",
+  "buzz" : "expect bazz"
+}
