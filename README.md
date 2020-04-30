@@ -74,6 +74,10 @@ dependencies {
 * Write JSON unit tests in less code, https://github.com/skyscreamer/JSONassert
 * Compare JSON in your Unit Tests, https://github.com/lukas-krecan/JsonUnit
 
+# Development Notes
+
+See [Development Notes in the Wiki](https://github.com/qaware/majx/wiki/Develop).
+
 # Maintainer
 
 Claudius Boettcher, <claudius.boettcher@qaware.de>.
