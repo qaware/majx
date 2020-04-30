@@ -29,6 +29,17 @@ class IsMatchingJson constructor(private val pattern: String) : TypeSafeMatcher<
         return true
     }
 
+    override fun describeMismatchSafely(item: String?, mismatchDescription: Description?) {
+        if (item == null){
+            mismatchDescription?.appendText("Given item was null")
+            return
+        }
+        try {
+            assertJsonMatches(pattern, item)
+        } catch (e: AssertionError) {
+            mismatchDescription?.appendText(e.message)
+        }
+    }
 }
 
 fun matchesJson(pattern: String): Matcher<String> {
