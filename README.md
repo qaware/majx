@@ -49,7 +49,7 @@ If you are using Maven to build your project, add the following to the `pom.xml`
 <dependency>
     <groupId>de.qaware.majx</groupId>
     <artifactId>majx</artifactId>
-    <version>1.0.2</version>
+    <version>1.1.0</version>
     <scope>test</scope>
 </dependency>
 ```
@@ -64,7 +64,7 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/de.qaware.majx/majx
-    testCompile group: 'de.qaware.majx', name: 'majx', version: '1.0.2'
+    testCompile group: 'de.qaware.majx', name: 'majx', version: '1.1.0'
 }
 ```
 
