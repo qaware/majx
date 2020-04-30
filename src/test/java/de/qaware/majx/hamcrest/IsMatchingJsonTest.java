@@ -1,4 +1,4 @@
-/**
+/*
  * MIT License
  *
  * Copyright (c) 2017 QAware GmbH
@@ -21,21 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package de.qaware.majx.hamcrest
+package de.qaware.majx.hamcrest;
 
-import org.hamcrest.MatcherAssert.assertThat
-import org.junit.Test
+import org.junit.Test;
 
+import static de.qaware.majx.hamcrest.IsMatchingJsonKt.matchesJson;
+import static org.hamcrest.MatcherAssert.assertThat;
 
-internal class IsMatchingJsonTest {
+public class IsMatchingJsonTest {
 
     @Test
-    fun matchesSafely() {
-        assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"foo\" : \"...\" }"))
+    public void testMatchJson(){
+        assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"foo\" : \"...\" }"));
     }
 
-    @Test(expected = AssertionError::class)
-    fun mismatch() {
-        assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"baz\" : \"...\" }"))
+    @Test(expected = AssertionError.class)
+    public void testMismatchJson(){
+        assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"baz\" : \"...\" }"));
     }
 }
