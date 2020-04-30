@@ -39,4 +39,9 @@ public class IsMatchingJsonTest {
     public void testMismatchJson(){
         assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"baz\" : \"...\" }"));
     }
+
+    @Test(expected = AssertionError.class)
+    public void testNullJson() {
+        assertThat(null, matchesJson("{ ... }"));
+    }
 }

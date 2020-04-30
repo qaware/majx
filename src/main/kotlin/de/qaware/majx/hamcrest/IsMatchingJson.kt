@@ -53,12 +53,9 @@ class IsMatchingJson constructor(private val pattern: String) : TypeSafeMatcher<
     }
 
     override fun describeMismatchSafely(item: String?, mismatchDescription: Description?) {
-        if (item == null){
-            mismatchDescription?.appendText("Given item was null")
-            return
-        }
+        val checkedItem = item ?: return
         try {
-            assertJsonMatches(pattern, item)
+            assertJsonMatches(pattern, checkedItem)
         } catch (e: AssertionError) {
             mismatchDescription?.appendText(e.message)
         }
