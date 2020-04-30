@@ -53,7 +53,7 @@ dependencies {
     implementation group: 'org.hamcrest', name: 'hamcrest-all', version: versions.hamcrestVersion
 
     // Mustache
-    implementation 'com.github.spullara.mustache.java:compiler:0.9.5'
+    implementation 'com.github.spullara.mustache.java:compiler:0.9.6'
 
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     // https://mvnrepository.com/artifact/junit/junit
