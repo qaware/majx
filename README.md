@@ -76,7 +76,7 @@ dependencies {
 
 # Development Notes
 
-See [Development Notes in the Wiki](https://github.com/qaware/majx/wiki/Develop).
+See [Development Notes in the Wiki](https://github.com/qaware/majx/wiki/Development-Notes).
 
 # Maintainer
 
