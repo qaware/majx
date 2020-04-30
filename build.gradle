@@ -60,7 +60,7 @@ dependencies {
 }
 
 task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
+    archiveClassifier = 'sources'
     from sourceSets.main.allSource
 }
 
@@ -70,7 +70,7 @@ dokka {
 }
 
 task javadocJar(type: Jar, dependsOn: dokka) {
-    classifier = 'javadoc'
+    archiveClassifier = 'javadoc'
     from javadoc.destinationDir
 }
 
