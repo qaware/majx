@@ -44,4 +44,9 @@ public class IsMatchingJsonTest {
     public void testNullJson() {
         assertThat(null, matchesJson("{ ... }"));
     }
+
+    @Test(expected = IllegalArgumentException.class)
+    public void testNullMatcher() {
+        assertThat("{ }", matchesJson(null));
+    }
 }
