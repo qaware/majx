@@ -7,17 +7,19 @@ before_cache:
 - rm -rf $HOME/.gradle/caches/*/plugin-resolution/
 cache:
   directories:
-  - $HOME/.gradle/caches/
-  - $HOME/.gradle/wrapper/
-script: ./gradlew build
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+script: "./gradlew build"
 after_success:
-- ./gradlew jacocoTestReport coveralls
+- "./gradlew jacocoTestReport coveralls"
 deploy:
   provider: releases
   api_key:
-    secure: f310/pL7iFnMXgnHImdM9GzJSTVRzRchrA7xvwYtukRus8/7sccrEEZl80q7zkUcXZAf/XTHlSTADnOKDEifFzOfK42reL+RyHHc9mn4+BQ3ZmU0kRVbeFmTgNO9SCjK/2hyLQOFUxpCCSqFnWLRcAJjI0g5QTnM0qPojEhdvr2F04/qmRGujgDQ+T0sNstqBLkOSYXTLcv8Ah8lLeiWhmWbmB1qbTa1TZ3aoz0XScj3IZcOSd2KpfE3QZeIMady5yOpp3MqqXQGLUpM7rYdgcTbwcrx+d3NQzBLVsYr4FcLHQincjkDkTtBcrDSPhThr58LrNVeV0Fu2KzSgHWRby6Y+vKdDpgq+TRn5Fc6uCQteFw516ew8X8XDDFoohULbeJoz4j4kDvC70koGQzbwIVJbgR2c0bZDLSVCn/Q8oMTehHyoJkMqq1l5TT9kBcscypL3VkmXaYQBRFgQIuyoQSfdwZwB5/V29PV5pz+vrV1rvz+s8nyuPqnwvukA9igzb2cuH5FgRDs76VtgqOVXIoB6AO88VYyTOjtrgaK7WcHvGjuFLUbgKQlQsw69wD0hymOaST1KKQarbg46et+Lo4r5kuh5lWBi6Wt2FaWSCnd4VVumY+vE1oDQw55QONkUxZnOnFxoC22ZeIzZD2eMQv13ihkpqDnJtd0Ojwmfaw=
+    secure: w279HHnJPTcmd1oVUXFZQzYhIxUQJS7WgWCu+W62YWOAlrn0T+DoR0RcGDLwA/tSNXEvkL8z8EKxW1Y2urXOs4PqwKgbFWPnyqijjmkQ6dpH58ggjRdu4niCt9JpJn/1S2eBbyrVUMeSQc/MmWA5LwyE5+7M0i02OIUAss19HwRbHltpaC0m7+ZLyro8B2qBISNsfS3Sseaqr09udnbSZmEBIItDizNb7V4HbjLnNy1WXQYy8B8rWEUjrS/lDMEZo+V+NzXe0UbTVbGq32ZEDPEFcxG6ZwwRtnw+kjqhWA/UmiWxBOGKNRZsBAbsbGKQ8WU3jLILmrY9pcT29aEmqH9QzR3qR6RuRfe/HeuGdaW1XtXqLU74iKLSb3y0j5MQrJVwkXI+s0Jzhn4wVYNZKaY4Y0BODaqiOFd7S2fFs2zhyT1Oqw6WDJuMXbbFyRJZ9U6B/RLhBZo5PcbXKZSW/300ljk+E8t7J6l2K7jcYdE0Ytwj94/W87LUsYL1WNaWF+4MIACjhOMdnTAR4zmtenlXVHzSOvSEJsVRE5MrrxCKUP6hcmmlIlLSy40sjzYRTX/qxywcmHnr03EnapqmtHGjEQPGhOLOKMlFxbvtOAgOqfF0O/KmWAZPhNe7xYg2a4gnX0hjmQhQ++79X1BMGETiEil3RYcHQ/QKkoilMnQ=
   file_glob: true
-  file: ./build/distributions/*
+  file: "./build/distributions/*"
   skip_cleanup: true
   on:
+    repo: qaware/majx
+    branch: master
     tags: true
