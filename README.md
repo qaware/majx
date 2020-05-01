@@ -16,14 +16,22 @@ values, that are treated in a certain way.
 
 # Usage
 
-Obtain a reference to the **actual** and **pattern** JSONs as `String` or jackson's [`JsonNode`](https://fasterxml.github.io/jackson-databind/javadoc/2.8/com/fasterxml/jackson/databind/JsonNode.html)
-and pass them to one of the static methods that the class `Majx` provides.
+Obtain a reference to the **actual** and **pattern** JSONs as `String`  
+or jackson's [`JsonNode`](https://fasterxml.github.io/jackson-databind/javadoc/2.8/com/fasterxml/jackson/databind/JsonNode.html)
+and pass them to
+
+- one of the static methods that the class `Majx` provides which throw `AssertionError`s
+- or use the hamcrest matcher `matchesJson` from class `IsMatchingJson`
 
 ```
+import static de.qaware.majx.Majx.assertJsonMatches;
+import static de.qaware.majx.hamcrest.IsMatchingJson.matchesJson;
+
 String actual  = "{ \"greeting\" : \"Hello, World!\", \"id\" : 12 }";
 String pattern = "{ \"greeting\" : \"Hello, World!\", \"id\" : \"...\" }";
 
 Majx.assertJsonMatches(pattern, actual);
+assertThat(actual, matchesJson(pattern); // or use the hamcrest matcher
 ```
 
 This test would succeed for any value for the `"id"` property inside the **actual** JSON
