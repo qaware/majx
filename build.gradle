@@ -50,6 +50,9 @@ dependencies {
     // Mustache
     implementation 'com.github.spullara.mustache.java:compiler:0.9.6'
 
+    // Hamcrest for matcher implementation
+    api group: 'org.hamcrest', name: 'hamcrest', version: '2.2'
+
     testImplementation "org.jetbrains.kotlin:kotlin-test"
     // https://mvnrepository.com/artifact/junit/junit
     testImplementation group: 'junit', name: 'junit', version: '4.13'
