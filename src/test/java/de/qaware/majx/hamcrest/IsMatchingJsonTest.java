@@ -25,18 +25,17 @@ package de.qaware.majx.hamcrest;
 
 import org.junit.Test;
 
-import static de.qaware.majx.hamcrest.IsMatchingJsonKt.matchesJson;
+import static de.qaware.majx.hamcrest.IsMatchingJson.matchesJson;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class IsMatchingJsonTest {
-
     @Test
-    public void testMatchJson(){
+    public void testMatchJson() {
         assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"foo\" : \"...\" }"));
     }
 
     @Test(expected = AssertionError.class)
-    public void testMismatchJson(){
+    public void testMismatchJson() {
         assertThat("{ \"foo\" : \"bar\" }", matchesJson("{ \"baz\" : \"...\" }"));
     }
 
@@ -47,6 +46,7 @@ public class IsMatchingJsonTest {
 
     @Test(expected = IllegalArgumentException.class)
     public void testNullMatcher() {
+        //noinspection ConstantConditions
         assertThat("{ }", matchesJson(null));
     }
 }

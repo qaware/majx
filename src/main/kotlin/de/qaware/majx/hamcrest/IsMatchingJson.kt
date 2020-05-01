@@ -1,3 +1,4 @@
+@file:JvmName("IsMatchingJson")
 /**
  * MIT License
  *
@@ -33,6 +34,13 @@ import org.hamcrest.TypeSafeMatcher
  */
 class IsMatchingJson constructor(private val pattern: String) : TypeSafeMatcher<String>() {
 
+    companion object {
+        @JvmStatic
+        fun matchesJson(pattern: String): Matcher<String> {
+            return IsMatchingJson(pattern)
+        }
+    }
+
     override fun describeTo(description: Description?) {
         description?.appendText("matches JSON $pattern")
     }
@@ -60,8 +68,4 @@ class IsMatchingJson constructor(private val pattern: String) : TypeSafeMatcher<
             mismatchDescription?.appendText(e.message)
         }
     }
-}
-
-fun matchesJson(pattern: String): Matcher<String> {
-    return IsMatchingJson(pattern)
 }
