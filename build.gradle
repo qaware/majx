@@ -119,8 +119,8 @@ task updateVersionInReadme {
         def newReadme = file('README.md').text
                 .replaceAll(/<version>[\d.]+<\/version>/, "<version>${version}</version>")
                 .replaceAll(
-                        /testCompile group: 'de\.qaware\.majx', name: 'majx', version: '[\d.]+'/,
-                        "testCompile group: 'de.qaware.majx', name: 'majx', version: '${version}'")
+                        /testImplementation group: 'de\.qaware\.majx', name: 'majx', version: '[\d.]+'/,
+                        "testImplementation group: 'de.qaware.majx', name: 'majx', version: '${version}'")
 
         file('README.md').write(newReadme)
     }

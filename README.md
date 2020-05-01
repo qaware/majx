@@ -72,7 +72,7 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/de.qaware.majx/majx
-    testCompile group: 'de.qaware.majx', name: 'majx', version: '1.2.0'
+    testImplementation group: 'de.qaware.majx', name: 'majx', version: '1.2.0'
 }
 ```
 
