@@ -48,7 +48,8 @@ Details on all available features can be found in the wiki:
 
 ## Dependencies
 
-The JARs are available via Maven Central and JCenter. 
+The JARs are available via  [Maven Central](https://mvnrepository.com/artifact/de.qaware.majx/majx)  
+and [JCenter](https://bintray.com/qaware-oss/maven/majx).
 
 If you are using Maven to build your project, add the following to the `pom.xml` file.
 
