@@ -30,7 +30,7 @@ import static de.qaware.majx.hamcrest.IsMatchingJson.matchesJson;
 String actual  = "{ \"greeting\" : \"Hello, World!\", \"id\" : 12 }";
 String pattern = "{ \"greeting\" : \"Hello, World!\", \"id\" : \"...\" }";
 
-Majx.assertJsonMatches(pattern, actual);
+assertJsonMatches(pattern, actual);
 assertThat(actual, matchesJson(pattern); // or use the hamcrest matcher
 ```
 
