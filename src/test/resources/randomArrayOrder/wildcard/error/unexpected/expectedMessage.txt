@@ -1,0 +1,13 @@
+Error at location $:  Actual array does not contain all pattern array elements ignoring order.
+Expected: (a collection containing <"foo"> and a collection containing <"bar"> and a collection containing <"baz">)
+     but: a collection containing <"bar"> mismatches were: [was <"baz">, was <"foo">, was <"foobar">].
+
+--------------------------------------------------------------------------------------------
+Actual JSON
+--------------------------------------------------------------------------------------------
+[ "baz", "foo", "foobar" ]
+
+--------------------------------------------------------------------------------------------
+Pattern
+--------------------------------------------------------------------------------------------
+[ "foo", "bar", "baz", "..." ]

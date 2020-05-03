@@ -39,6 +39,17 @@ fun assertJsonMatches(pattern: String, actual: String) =
         assertJsonMatches(null, pattern, actual)
 
 /**
+ * Asserts that the given actual JSON matches the given JSON pattern ignoring the order of array elements.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON string to match against the pattern.
+ */
+fun assertJsonMatchesAnyArrayOrder(pattern: String, actual: String) =
+        assertJsonMatchesAnyArrayOrder(null, pattern, actual)
+
+/**
  * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode].
  *
  * If the JSON does not match, an [AssertionError] is thrown.
@@ -48,6 +59,17 @@ fun assertJsonMatches(pattern: String, actual: String) =
  */
 fun assertJsonMatches(pattern: JsonNode, actual: JsonNode) =
         assertJsonMatches(null, pattern, actual, null)
+
+/**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode] ignoring the order of array elements.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON node.
+ * @param actual The actual JSON node to match against the pattern.
+ */
+fun assertJsonMatchesAnyArrayOrder(pattern: JsonNode, actual: JsonNode) =
+        assertJsonMatchesAnyArrayOrder(null, pattern, actual, null)
 
 /**
  * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern string.
@@ -61,6 +83,18 @@ fun assertJsonMatches(pattern: String, actual: JsonNode) =
         assertJsonMatches(null, parseAndValidate(pattern, "pattern"), actual, null)
 
 /**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern string ignoring the order of array elements.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON node to match against the pattern.
+ */
+fun assertJsonMatchesAnyArrayOrder(pattern: String, actual: JsonNode) =
+        assertJsonMatchesAnyArrayOrder(null, parseAndValidate(pattern, "pattern"), actual, null)
+
+
+/**
  * Asserts that the given actual JSON string matches the given JSON pattern [JsonNode].
  *
  * If the JSON does not match, an [AssertionError] is thrown.
@@ -70,6 +104,18 @@ fun assertJsonMatches(pattern: String, actual: JsonNode) =
  */
 fun assertJsonMatches(pattern: JsonNode, actual: String) =
         assertJsonMatches(null, pattern, parseAndValidate(actual, "actual"), null)
+
+/**
+ * Asserts that the given actual JSON string matches the given JSON pattern [JsonNode] ignoring the order of array elements.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON node to match against the pattern.
+ */
+fun assertJsonMatchesAnyArrayOrder(pattern: JsonNode, actual: String) =
+        assertJsonMatchesAnyArrayOrder(null, pattern, parseAndValidate(actual, "actual"), null)
+
 
 /**
  * Asserts that the given actual JSON matches the given JSON pattern by evaluating mustache expressions
@@ -88,6 +134,23 @@ fun assertJsonMatches(pattern: String, actual: String, mustacheScope: Any? = nul
         assertJsonMatches(null, pattern, actual, mustacheScope)
 
 /**
+ * Asserts that the given actual JSON matches the given JSON pattern by evaluating mustache expressions
+ * with the given mustache scope and ignoring the order of array elements.
+ *
+ * The mustache scope may be a <code>Map<String,String></code> or a POJO.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON string to match against the pattern.
+ * @param mustacheScope A Map<String,String> or a POJO containing mustache expressions.
+ * @see <a href="https://github.com/qaware/majx">README</a> for details.
+ */
+fun assertJsonMatchesAnyArrayOrder(pattern: String, actual: String, mustacheScope: Any? = null) =
+        assertJsonMatchesAnyArrayOrder(null, pattern, actual, mustacheScope)
+
+
+/**
  * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode]
  * by evaluating mustache expressions with the given mustache scope.
  *
@@ -102,6 +165,23 @@ fun assertJsonMatches(pattern: String, actual: String, mustacheScope: Any? = nul
  */
 fun assertJsonMatches(pattern: JsonNode, actual: JsonNode, mustacheScope: Any? = null) =
         assertJsonMatches(null, pattern, actual, mustacheScope)
+
+/**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode]
+ * by evaluating mustache expressions with the given mustache scope and ignoring the order of array elements.
+ *
+ * The mustache scope may be a <code>Map<String,String></code> or a POJO.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param pattern The pattern JSON node.
+ * @param actual The actual JSON node to match against the pattern.
+ * @param mustacheScope A Map<String,String> or a POJO containing mustache expressions.
+ * @see <a href="https://github.com/qaware/majx">README</a> for details.
+ */
+fun assertJsonMatchesAnyArrayOrder(pattern: JsonNode, actual: JsonNode, mustacheScope: Any? = null) =
+        assertJsonMatchesAnyArrayOrder(null, pattern, actual, mustacheScope)
+
 
 /**
  * Asserts that the given actual JSON matches the given JSON pattern by evaluating mustache expressions
@@ -125,6 +205,27 @@ fun assertJsonMatches(reason: String?, pattern: String, actual: String, mustache
 }
 
 /**
+ * Asserts that the given actual JSON matches the given JSON pattern by evaluating mustache expressions
+ * with the given mustache scope and ignoring the order of array elements.
+ *
+ * The mustache scope may be a <code>Map<String,String></code> or a POJO.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param reason A custom message to prepend to the generated majx error.
+ * @param pattern The pattern JSON string.
+ * @param actual The actual JSON string to match against the pattern.
+ * @param mustacheScope A Map<String,String> or a POJO containing mustache expressions.
+ * @see <a href="https://github.com/qaware/majx">README</a> for details.
+ */
+fun assertJsonMatchesAnyArrayOrder(reason: String?, pattern: String, actual: String, mustacheScope: Any? = null) {
+    assertJsonMatchesAnyArrayOrder(reason,
+            parseAndValidate(pattern, "pattern"),
+            parseAndValidate(actual, "actual"),
+            mustacheScope)
+}
+
+/**
  * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode] by evaluating
  * mustache expressions with the given mustache scope.
  *
@@ -139,7 +240,36 @@ fun assertJsonMatches(reason: String?, pattern: String, actual: String, mustache
  * @see <a href="https://github.com/qaware/majx">README</a> for details.
  */
 fun assertJsonMatches(reason: String?, pattern: JsonNode, actual: JsonNode, mustacheScope: Any?) =
-        JsonMatcher(mustacheScope).assertMatches(reason, pattern, actual)
+        assertJsonMatchesInternal(mustacheScope, reason, pattern, actual)
+
+/**
+ * Asserts that the given actual JSON [JsonNode] matches the given JSON pattern [JsonNode] by evaluating
+ * mustache expressions with the given mustache scope and ignoring the order of array elements.
+ *
+ * The mustache scope may be a <code>Map<String,String></code> or a POJO.
+ *
+ * If the JSON does not match, an [AssertionError] is thrown.
+ *
+ * @param reason A custom message to prepend to the generated majx error.
+ * @param pattern The pattern JSON node.
+ * @param actual The actual JSON node to match against the pattern.
+ * @param mustacheScope A Map<String,String> or a POJO containing mustache expressions.
+ * @see <a href="https://github.com/qaware/majx">README</a> for details.
+ */
+fun assertJsonMatchesAnyArrayOrder(reason: String?, pattern: JsonNode, actual: JsonNode, mustacheScope: Any?) {
+    val config = MatcherConfig(randomArrayOrder = true)
+    assertJsonMatchesInternal(mustacheScope, reason, pattern, actual, config)
+}
+
+private fun assertJsonMatchesInternal(
+        mustacheScope: Any?,
+        reason: String?,
+        pattern: JsonNode,
+        actual: JsonNode,
+        config: MatcherConfig = DefaultMatcherConfig
+) {
+    JsonMatcher(config, mustacheScope).assertMatches(reason, pattern, actual)
+}
 
 /**
  * Returns the given paramValue string as JSON node if valid or throws an exception if not.

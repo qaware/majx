@@ -34,11 +34,12 @@ import org.hamcrest.Matchers.*
  * Can use templates on strings to check against dynamic test expectations.
  * Accepts wildcards.
  *
+ * @property config        The config that controls certain matcher aspects.
  * @property mustacheScope The scope from which the mustache parser reads it variables. May be a map or a POJO.
  *                         This is used in case we need dynamic test expectations.
  * @constructor Creates a new [JsonMatcher] with the given [mustacheScope].
  */
-class JsonMatcher(private val mustacheScope: Any?) {
+class JsonMatcher(private val config: MatcherConfig, private val mustacheScope: Any?) {
 
     /**
      * Companion object provides support methods for [JsonMatcher].
@@ -215,8 +216,8 @@ class JsonMatcher(private val mustacheScope: Any?) {
         }
 
         val locationInfo = formatLocation(attributeName)
-        assertThat<JsonNodeType>(locationInfo + "Incorrect type of attribute",
-                actual.nodeType, `is`<JsonNodeType>(pattern.nodeType))
+        assertThat(locationInfo + "Incorrect type of attribute",
+                actual.nodeType, `is`(pattern.nodeType))
 
         when {
             pattern is ObjectNode && actual is ObjectNode -> validateObject(pattern, actual, attributeName)
@@ -225,8 +226,8 @@ class JsonMatcher(private val mustacheScope: Any?) {
             pattern is ValueNode && actual is ValueNode -> validateScalar(pattern, actual, attributeName)
             else -> {
                 val error = "Incompatible types in actual and expected. " +
-                        "Type of actual: ${actual.javaClass.toString()}, " +
-                        "type of expected: ${pattern.javaClass.toString()}"
+                        "Type of actual: ${actual.javaClass}, " +
+                        "type of expected: ${pattern.javaClass}"
                 throw AssertionError("$locationInfo$error")
             }
         }
@@ -249,7 +250,7 @@ class JsonMatcher(private val mustacheScope: Any?) {
             if (WILDCARD == expectedFieldName && isWildcard(pattern.get(WILDCARD))) {
                 continue
             }
-            assertThat<JsonNode>("$locationInfo Expected field name '$expectedFieldName' not found.",
+            assertThat("$locationInfo Expected field name '$expectedFieldName' not found.",
                     actual.get(expectedFieldName), notNullValue())
             validate(pattern.get(expectedFieldName), actual.get(expectedFieldName),
                     "$attributeName.$expectedFieldName")
@@ -261,12 +262,39 @@ class JsonMatcher(private val mustacheScope: Any?) {
      *
      * @param pattern       Pattern object.
      * @param actual        Actual value.
-     * @param attributeName Name of currently processed attribute (absolut path from root).
+     * @param attributeName Name of currently processed attribute (absolute path from root).
      */
     private fun validateArray(pattern: ArrayNode, actual: ArrayNode, attributeName: String) {
-        val locationInfo = formatLocation(attributeName)
+        val locationInfo: String = formatLocation(attributeName)
         validateCorrectSize(pattern, actual, locationInfo)
 
+        if (config.randomArrayOrder) {
+            validateArrayRandom(attributeName, pattern, actual)
+        } else {
+            validateArrayOrdered(attributeName, pattern, actual)
+        }
+    }
+
+    private fun validateArrayRandom(attributeName: String, pattern: ArrayNode, actual: ArrayNode) {
+        val patternSet: Set<JsonNode> = pattern.toHashSet()
+        val actualSet: Set<JsonNode> = actual.toHashSet()
+
+        val locationInfo: String = formatLocation(attributeName)
+
+        if (containsWildcard(pattern)) {
+            // Wildcard found -> actual must contain all pattern elements (and may contain additional elements)
+            val patternWithoutWildcard: List<JsonNode> = patternSet.filterNot(::isWildcard)
+
+            assertThat("$locationInfo Actual array does not contain all pattern array elements ignoring order.",
+                    actual, hasItems(*patternWithoutWildcard.toTypedArray()))
+        } else {
+            // No wildcard -> sets must be equal
+            assertThat("$locationInfo Arrays are not equal ignoring order.",
+                    actualSet, equalTo(patternSet))
+        }
+    }
+
+    private fun validateArrayOrdered(attributeName: String, pattern: ArrayNode, actual: ArrayNode) {
         // If pattern contains wildcard only the elements up to the wildcard must match.
         val maxIndex = if (containsWildcard(pattern)) pattern.size() - 2 else pattern.size() - 1
         for (i in 0..maxIndex) {
@@ -297,6 +325,6 @@ class JsonMatcher(private val mustacheScope: Any?) {
      */
     private fun validateScalar(pattern: ValueNode, actual: ValueNode, attributeName: String) {
         val locationInfo = formatLocation(attributeName)
-        assertThat<String>(locationInfo + "Element does not match", actual.asText(), `is`<String>(pattern.asText()))
+        assertThat(locationInfo + "Element does not match", actual.asText(), `is`<String>(pattern.asText()))
     }
 }
