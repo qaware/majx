@@ -46,53 +46,60 @@ public class RandomArrayOrderTests {
     public static Collection<Object[]> data() {
         return Arrays.asList(new Object[][]{
                 {
-                        "No wildcard: Success same length",
-                        "randomArrayOrder/noWildcard/success/actual.json",
-                        "randomArrayOrder/noWildcard/success/pattern.json",
+                        "No wildcard | Success | with primitive elements",
+                        "randomArrayOrder/noWildcard/success/primitive/actual.json",
+                        "randomArrayOrder/noWildcard/success/primitive/pattern.json",
                         null
                 },
                 {
-                        "No wildcard: expected array element not matched",
+                        "No wildcard | Success | Nested wildcards",
+                        "randomArrayOrder/noWildcard/success/nestedWildcard/actual.json",
+                        "randomArrayOrder/noWildcard/success/nestedWildcard/pattern.json",
+                        null
+                },
+                {
+                        "No wildcard | error | expected array element not matched",
                         "randomArrayOrder/noWildcard/error/notMatchedValue/actual.json",
                         "randomArrayOrder/noWildcard/error/notMatchedValue/pattern.json",
                         "randomArrayOrder/noWildcard/error/notMatchedValue/expectedMessage.txt"
                 },
                 {
-                        "No wildcard: unexpected array element",
+                        "No wildcard | error | unexpected array element",
                         "randomArrayOrder/noWildcard/error/unexpected/actual.json",
                         "randomArrayOrder/noWildcard/error/unexpected/pattern.json",
                         "randomArrayOrder/noWildcard/error/unexpected/expectedMessage.txt"
                 },
                 {
-                        "No wildcard: missing array element",
+                        "No wildcard | error | missing array element",
                         "randomArrayOrder/noWildcard/error/missing/actual.json",
                         "randomArrayOrder/noWildcard/error/missing/pattern.json",
                         "randomArrayOrder/noWildcard/error/missing/expectedMessage.txt"
                 },
                 {
-                        "With wildcard: Success same length",
+                        "With wildcard | Success | same length",
                         "randomArrayOrder/wildcard/success/exact/actual.json",
                         "randomArrayOrder/wildcard/success/exact/pattern.json",
                         null
                 },
                 {
-                        "With wildcard: Success with additional elements",
+                        "With wildcard | Success | with additional elements",
                         "randomArrayOrder/wildcard/success/withAdditionalElements/actual.json",
                         "randomArrayOrder/wildcard/success/withAdditionalElements/pattern.json",
                         null
                 },
                 {
-                        "With wildcard: unexpected array element",
+                        "With wildcard | error | unexpected array element",
                         "randomArrayOrder/wildcard/error/unexpected/actual.json",
                         "randomArrayOrder/wildcard/error/unexpected/pattern.json",
                         "randomArrayOrder/wildcard/error/unexpected/expectedMessage.txt"
                 },
                 {
-                        "With wildcard: missing array element",
+                        "With wildcard | error | missing array element",
                         "randomArrayOrder/wildcard/error/missing/actual.json",
                         "randomArrayOrder/wildcard/error/missing/pattern.json",
                         "randomArrayOrder/wildcard/error/missing/expectedMessage.txt"
                 },
+
         });
     }
 

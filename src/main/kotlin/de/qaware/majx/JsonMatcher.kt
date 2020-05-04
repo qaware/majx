@@ -258,10 +258,10 @@ class JsonMatcher(private val config: MatcherConfig, private val mustacheScope: 
     }
 
     /**
-     * Recursively validate that the actual value matches the pattern object (potentially with wildcards).
+     * Recursively validate that the actual value matches the pattern array (potentially with wildcards).
      *
-     * @param pattern       Pattern object.
-     * @param actual        Actual value.
+     * @param pattern       Pattern array.
+     * @param actual        Actual array.
      * @param attributeName Name of currently processed attribute (absolute path from root).
      */
     private fun validateArray(pattern: ArrayNode, actual: ArrayNode, attributeName: String) {
@@ -275,25 +275,67 @@ class JsonMatcher(private val config: MatcherConfig, private val mustacheScope: 
         }
     }
 
+    /**
+     * Recursively validate that the actual value matches the pattern array in any order (potentially with wildcards).
+     *
+     * @param pattern       Pattern array.
+     * @param actual        Actual array.
+     * @param attributeName Name of currently processed attribute (absolute path from root).
+     */
     private fun validateArrayRandom(attributeName: String, pattern: ArrayNode, actual: ArrayNode) {
-        val patternSet: Set<JsonNode> = pattern.toHashSet()
-        val actualSet: Set<JsonNode> = actual.toHashSet()
-
         val locationInfo: String = formatLocation(attributeName)
 
-        if (containsWildcard(pattern)) {
-            // Wildcard found -> actual must contain all pattern elements (and may contain additional elements)
-            val patternWithoutWildcard: List<JsonNode> = patternSet.filterNot(::isWildcard)
+        val wildcardMatchMode = containsWildcard(pattern)
 
-            assertThat("$locationInfo Actual array does not contain all pattern array elements ignoring order.",
-                    actual, hasItems(*patternWithoutWildcard.toTypedArray()))
-        } else {
-            // No wildcard -> sets must be equal
-            assertThat("$locationInfo Arrays are not equal ignoring order.",
-                    actualSet, equalTo(patternSet))
+        val actualNodes: List<JsonNode> = actual.toList()
+        val expectedNodes: List<JsonNode> = if (wildcardMatchMode) pattern.filterNot(::isWildcard) else pattern.toList()
+
+        // For each element in expected find at least one element in actual that does not fail validation
+        expectedNodes.forEach { expectedNode ->
+            if (!hasItem(actualNodes, expectedNode)) {
+                if (wildcardMatchMode) {
+                    // Wildcard found -> actual must contain all pattern elements (and may contain additional elements)
+                    throw AssertionError("$locationInfo Actual array does not contain all pattern " +
+                            "array elements ignoring order")
+                } else {
+                    // No wildcard -> sets must be equal
+                    throw AssertionError("$locationInfo Arrays are not equal ignoring order")
+                }
+            }
         }
     }
 
+    /**
+     * Returns whether the given list contains at least one item that matches the given pattern.
+     *
+     * @param list The list.
+     * @param pattern The pattern.
+     * @return Whether the list contains an item that matches the given pattern.
+     */
+    private fun hasItem(list: List<JsonNode>, pattern: JsonNode): Boolean {
+        for (actualNode in list) {
+            // I know it is bad practice to use exeptions for control flow but currently the validation works
+            // this way. When we restructure the code to return a list of validation errors instead of throwing, this
+            // function will become cleaner.
+            try {
+                validate(pattern, actualNode, "ignored")
+                return true
+            } catch (ignored: AssertionError) {
+                // Ignored
+            }
+        }
+        return false
+    }
+
+    /**
+     * Recursively validate that the actual value matches the pattern array in fixed order (potentially with wildcards).
+     *
+     * The fixed order is dictated by the pattern.
+     *
+     * @param pattern       Pattern array.
+     * @param actual        Actual array.
+     * @param attributeName Name of currently processed attribute (absolute path from root).
+     */
     private fun validateArrayOrdered(attributeName: String, pattern: ArrayNode, actual: ArrayNode) {
         // If pattern contains wildcard only the elements up to the wildcard must match.
         val maxIndex = if (containsWildcard(pattern)) pattern.size() - 2 else pattern.size() - 1
