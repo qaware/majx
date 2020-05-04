@@ -23,24 +23,20 @@
  */
 package de.qaware.majx;
 
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
+import org.junit.function.ThrowingRunnable;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
 
 import static de.qaware.majx.TestSupportKt.readFile;
+import static org.junit.Assert.assertThrows;
 
 
 @RunWith(Parameterized.class)
 public class RandomArrayOrderTests {
-
-    @Rule
-    public ExpectedException exception = ExpectedException.none();
 
     @Parameterized.Parameters(name = "{index}: {0}")
     public static Collection<Object[]> data() {
@@ -117,17 +113,17 @@ public class RandomArrayOrderTests {
     }
 
     @Test
-    public void test() throws IOException {
+    public void test() throws Throwable {
         String actual = readFile(this.actualPath);
         String pattern = readFile(this.patternPath);
 
+        ThrowingRunnable testInvocation = () -> Majx.assertJsonMatchesAnyArrayOrder(pattern, actual);
+
         if (this.expectedMessagePath != null) {
             String expectedMessage = readFile(this.expectedMessagePath);
-
-            exception.expect(AssertionError.class);
-            exception.expectMessage(expectedMessage);
+            assertThrows(expectedMessage, AssertionError.class, testInvocation);
+        } else {
+            testInvocation.run();
         }
-
-        Majx.assertJsonMatchesAnyArrayOrder(pattern, actual);
     }
 }
