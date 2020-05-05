@@ -51,6 +51,18 @@ public class PublicApiTests {
         Majx.assertJsonMatches(null, pattern, actual, null);
         Majx.assertJsonMatches(reason, patternNode, actualNode, null);
         Majx.assertJsonMatches(null, patternNode, actualNode, null);
+
+        Majx.assertJsonMatchesAnyArrayOrder(pattern, actual);
+        Majx.assertJsonMatchesAnyArrayOrder(patternNode, actualNode);
+        Majx.assertJsonMatchesAnyArrayOrder(pattern, actualNode);
+        Majx.assertJsonMatchesAnyArrayOrder(patternNode, actual);
+        Majx.assertJsonMatchesAnyArrayOrder(pattern, actual, null);
+        Majx.assertJsonMatchesAnyArrayOrder(pattern, actual, null);
+        Majx.assertJsonMatchesAnyArrayOrder(patternNode, actualNode, null);
+        Majx.assertJsonMatchesAnyArrayOrder(reason, pattern, actual, null);
+        Majx.assertJsonMatchesAnyArrayOrder(null, pattern, actual, null);
+        Majx.assertJsonMatchesAnyArrayOrder(reason, patternNode, actualNode, null);
+        Majx.assertJsonMatchesAnyArrayOrder(null, patternNode, actualNode, null);
     }
 
     @Test
@@ -73,5 +85,13 @@ public class PublicApiTests {
         Majx.assertJsonMatches(null, pattern, actual, mustacheScope);
         Majx.assertJsonMatches(reason, patternNode, actualNode, mustacheScope);
         Majx.assertJsonMatches(null, patternNode, actualNode, mustacheScope);
+
+        Majx.assertJsonMatchesAnyArrayOrder(pattern, actual, mustacheScope);
+        Majx.assertJsonMatchesAnyArrayOrder(pattern, actual, mustacheScope);
+        Majx.assertJsonMatchesAnyArrayOrder(patternNode, actualNode, mustacheScope);
+        Majx.assertJsonMatchesAnyArrayOrder(reason, pattern, actual, mustacheScope);
+        Majx.assertJsonMatchesAnyArrayOrder(null, pattern, actual, mustacheScope);
+        Majx.assertJsonMatchesAnyArrayOrder(reason, patternNode, actualNode, mustacheScope);
+        Majx.assertJsonMatchesAnyArrayOrder(null, patternNode, actualNode, mustacheScope);
     }
 }
