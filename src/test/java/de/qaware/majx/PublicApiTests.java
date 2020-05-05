@@ -29,10 +29,10 @@ import org.junit.Test;
 
 import java.util.Map;
 
-public class SignatureTests {
+public class PublicApiTests {
 
     @Test
-    public void testSignaturesWithoutMustacheScope() throws Exception {
+    public void testApisWithoutMustacheScope() throws Exception {
         String reason = "Upps, something went wrong";
         String pattern = "{ \"expected\" : 1337, \"...\" : \"...\" }";
         String actual = "{ \"expected\" : 1337 }";
@@ -54,7 +54,7 @@ public class SignatureTests {
     }
 
     @Test
-    public void testSignaturesWithMustacheScope() throws Exception {
+    public void testApisWithMustacheScope() throws Exception {
         String reason = "Upps, something went wrong";
         String pattern = "{ \"myMustache\" : \"{{foo}}/baz\", \"...\" : \"...\" }";
         String actual = "{ \"myMustache\" : \"bar/baz\" }";
